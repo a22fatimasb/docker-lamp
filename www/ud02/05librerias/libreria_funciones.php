@@ -36,7 +36,7 @@ function es_vocal($caracter) {
     
     $caracter = strtolower($caracter); //Lo convertimos a minúscula para comprobar mayúsculas y minúsculas
     $vocales = ['a', 'e', 'i', 'o', 'u'];
-    if(array_search($caracter)) {
+    if(array_search($caracter, $vocales)) {
         return true;
     }else{
         return false;
