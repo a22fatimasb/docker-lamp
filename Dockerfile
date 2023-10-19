@@ -16,4 +16,7 @@ RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install gd
 
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
 RUN a2enmod rewrite

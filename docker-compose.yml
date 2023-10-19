@@ -8,7 +8,7 @@ services:
         environment:
             MYSQL_DATABASE: dbname
             MYSQL_PASSWORD: test
-            MYSQL_ROOT_PASSWORD: test 
+            MYSQL_ROOT_PASSWORD: test
         volumes:
             - ./dump:/docker-entrypoint-initdb.d
             - ./conf:/etc/mysql/conf.d
@@ -21,10 +21,14 @@ services:
             - "80:80"
         volumes:
             - ./www:/var/www/html
+            - ./conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
         links:
             - db
         networks:
             - default
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links: 

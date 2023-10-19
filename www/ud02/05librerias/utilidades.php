@@ -6,20 +6,12 @@ function comprobarDigito($caracter)
     
     $longitud = strlen($caracter);
     if ($longitud === 1 && ctype_digit($caracter)) {
-        return true;
+        return "<br>Es un dígito.";
     } else {
-        return false;
+        return "<br>No es un dígito válido.";
     }
 }
 
-$caracter = "4";
-$resultado = comprobarDigito($caracter);
-
-if ($resultado) {
-    echo "Es un dígito.";
-} else {
-    echo "No es un dígito válido.";
-}
 
 // 2. Crea una función que reciba un string e devolva a súa lonxitude.
 function longitudString($cadena)
@@ -31,10 +23,6 @@ function longitudString($cadena)
         return 0;
     }
 }
-$cadena = 1;
-if (longitudString($cadena) > 0) {
-    echo "<br> La longitud es " . longitudString($cadena);
-}
 
 
 // 3. Crea una función que reciba dous número `a` e `b` e devolva o número `a` elevado a `b`.
@@ -43,23 +31,14 @@ function elevarNumero($a, $b)
     $numero_elevado = pow($a, $b);
     return $numero_elevado;
 }
-$a = 2;
-$b = 6;
-$resultado = elevarNumero($a, $b);
-echo "<br>El resultado de elevar $a a la potencia $b es: $resultado";
+
 // 4. Crea una función que reciba un carácter e devolva `true` se o carácter é unha vogal.
 function comprobarVocal($caracter)
 {
     $vocales = "AEIOUaeiou";
     return strpos($vocales, $caracter) !== false;
 }
-$c = "l";
 
-if (comprobarVocal($c)) {
-    echo "<br>La letra $c es una vocal.";
-} else {
-    echo "<br>La letra $c no es una vocal.";
-}
 // 5. Crea una función que reciba un número e devolva se o número é par ou impar.
 function comprobarParImpar($numero)
 {
@@ -67,46 +46,29 @@ function comprobarParImpar($numero)
         return "<br> No es un número válido";
     }
     if ($numero % 2 == 0) {
-        return true;
+        return "<br> Es un número par";
     } else {
-        return false;
+        return "<br> Es un número impar";
     }
 }
-$num = "5";
-$result = comprobarParImpar($num);
-echo "<br>";
 
-if ($result === "<br> No es un número válido") {
-    echo comprobarParImpar($num) . "<br>";
-} elseif (!comprobarParImpar($num)) {
-    echo "El número $num es impar.<br>";
-} else {
-    echo "El número $num es par.<br>";
-}
 
 // 6. Crea una función que reciba un string e devolva o string en maiúsculas.
 function pasarStringMaisculas($cadenaTexto)
 {
-    if (is_string($cadenaTexto) === false) {
-        return "<br> No es un string válido";
-    }
+
     return strtoupper($cadenaTexto);
 }
 
-$t = "noelia";
-$r = pasarStringMaisculas($t);
-if ($r === "<br> No es un string válido") {
-    echo pasarStringMaisculas($t) . "<br>";
-} else {
-    echo "<br> El resultado de pasar $t a mayúsculas es $r.";
-}
+
 
 // 7. Crea una función que imprima a zona horaria (*timezone*) por defecto utilizada en PHP.
-function imprimirZonaHorariaPorDefecto(){
+function imprimirZonaHorariaPorDefecto()
+{
     $zonaHorariaPorDefecto = date_default_timezone_get();
     echo "<br>La zona horaria por defecto utilizada en PHP es $zonaHorariaPorDefecto";
 }
-imprimirZonaHorariaPorDefecto();
+
 
 /* 8. Crea una función que imprima a hora á que sae e se pon o sol para a 
 localización por defecto. Debes comprobar como axustar as coordenadas (latitude e lonxitude)
@@ -125,6 +87,14 @@ function informacionHoraria()
     echo date("D M d Y") . ', hora de la puesta de sol : ' . date_sunset(time(), SUNFUNCS_RET_STRING, $latitud, $longitud, $zenit, $gmt);
 }
 
-echo informacionHoraria();
+/*2. Escribe la diferencia entre `include`, `include_once`, `require` y `require_once`.
 
+include: inclúe e interpreta o contido do ficheiro. Se o arquivo non se atopa, sae por pantalla unha advertencia pero o script segue executandose. 
+Desta maneira podese incluir o mesmo arquivo varias veces nun script.
+require: o mesmo que o anterior, pero a maiores produce un error fatal no caso de fallo e detense a execución do script.
+include_once: igual que o primeiro, pero funciona como "if exist" de SQL: se xa se incluiu o ficheiro anteriormente, non se volve a incluir. 
+Evita así a duplicación de código.
+require_once: igual que o require e a maiores se xa se incluiu o ficheiro dado non se volve a incluir.
+
+*/
 ?>
