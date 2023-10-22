@@ -1,18 +1,43 @@
-<?php
-/*
-Crea unha estrutura de datos para almacenar a seguinte información:
+<!DOCTYPE html>
+<html lang="es">
 
-    Identificador	Nome	        Prezo
-    cocacola	    Coca Cola	    2.1
-    pepsicola	    Pepsi Cola	    2
-    fantanaranja	Fanta Naranja	2.5
-    trinamanzana	Trina Manzana	2.3
-Coa estrutura de datos creada anteriormente, xerar un select dinámico que dea como resultado o seguinte:
+<head>
+    <meta charset="UTF-8" />
+    <title>HTML</title>
+</head>
 
-<select name="opcion">
-    <option value="cocacola">Coca Cola (2.1 €)</option>
-    <option value="pepsicola">Pepsi Cola (2 €)</option>
-    <option value="fantanaranja">Fanta Naranja (2.5 €)</option>
-    <option value="trinamanzana">Trina Manzana (2.3 €)</option>
-</select>
-    */
+<body>
+    <form name="formulario" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <select name="opcion">
+            <?php
+
+            $datos = [
+                "cocacola" => [
+                    "nome" => "Coca Cola",
+                    "prezo" => 2.1
+                ],
+                "pepsicola" => [
+                    "nome" => "Pepsi Cola",
+                    "prezo" => 2.0
+                ],
+                "fantanaranja" => [
+                    "nome" => "Fanta Naranja",
+                    "prezo" => 2.5
+                ],
+                "trinamanzana" => [
+                    "nome" => "Trina Manzana",
+                    "prezo" => 2.3
+                ]
+            ];
+
+            foreach( $datos as $id => $item){
+               echo '<option value="'. $id . '">'.$item["nome"].' ('.$item["prezo"].'€)</option>';
+
+            }
+            ?>
+        </select>
+        <input type="submit" class="submit" name="enviar" value="Enviar" />
+    </form>
+</body>
+
+</html>
