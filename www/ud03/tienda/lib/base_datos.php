@@ -93,8 +93,11 @@ function listarUsuarios()
     $sql = "SELECT * FROM usuarios";
     // La siguiente línea de código ejecuta la consulta y coloca los datos resultantes en una variable llamada $resultado.
     $resultados = $conexion->query($sql);
-    //la función num_rows()verifica si se devuelven más de cero filas
-    if ($resultados->num_rows > 0) {
+
+    if ($resultados === false) {
+        // La consulta no se ejecutó correctamente, muestra un mensaje de error.
+        echo "Error en la consulta: " . mysqli_error($conexion);
+    } else if ($resultados->num_rows > 0) {
         //Si se devuelven más de cero filas, la función fetch_assoc()coloca todos los resultados en una matriz asociativa que podemos recorrer. El bucle while() recorre el conjunto de resultados y genera los datos de las columnas id, nombre, apellidos, edad y provincia.
         while ($row = $resultados->fetch_assoc()) {
             echo " <tr> ";
