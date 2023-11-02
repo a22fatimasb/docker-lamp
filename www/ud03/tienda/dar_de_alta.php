@@ -1,3 +1,42 @@
+<?php
+include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
+$nombre = $apellidos = $edad = $provincia = "";
+$nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validación de datos
+    $nombre = $_POST["name"];
+    $apellidos = $_POST["apellidos"];
+    $edad = $_POST["edad"];
+    $provincia = $_POST["provincia"];
+
+    if (!validarCampoObligatorio($nombre) || !validarFormatoString($nombre) || !validarLongitudNombre($nombre)) {
+        $nombreErr = "Nombre inválido";
+    }
+
+    if (!validarCampoObligatorio($apellidos) || !validarFormatoString($apellidos) || !validarLongitudApellidos($apellidos)) {
+        $apellidosErr = "Apellidos inválidos";
+    }
+
+    if (!validarCampoObligatorio($edad) || !validarEdad($edad)) {
+        $edadErr = "Edad inválida";
+    }
+
+    if (!validarCampoObligatorio($provincia)) {
+        $provinciaErr = "Provincia inválida";
+    }
+    // Si todos los datos son válidos, guardar al nuevo usuario
+    if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($provinciaErr)) {
+        establecerConexion();
+        crearBaseDeDatos();
+        seleccionarBaseDeDatos();
+        crearTablaUsuarios();
+        guardarUsuarios($nombre, $apellidos, $edad, $provincia);
+        cerrarConexion();
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -18,74 +57,28 @@
 
         <label for="name">Nombre:</label>
         <input type="text" id="name" name="name">
-
+        <span class="error"><?php echo $nombreErr; ?></span>
         <br>
         <br>
-
         <label for="apellidos">Apellidos:</label>
         <input type="text" id="apellidos" name="apellidos">
-
+        <span class="error"><?php echo $apellidosErr; ?></span>
         <br> <br>
-
         <label for="edad">Edad:</label>
         <input type="number" id="edad" name="edad">
-
+        <span class="error"><?php echo $edadErr; ?></span>
         <br> <br>
-
         <label for="provincia">Provincia:</label>
         <?php require_once 'lib/utilidades.php';
-        echo generarSelectProvincias($provincias); ?>
+        echo generarSelectProvincias($provincias);
+        ?>
+        <span class="error"><?php echo $provinciaErr; ?></span>
+        <br> <br>
 
         <br> <br>
-        <input type="submit" name="submit" value="Agregar">
+        <input type="submit" name="submit" value="Actualizar">
     </form>
-    <footer>
-        <p>
-            <a href='index.php'>Página de inicio</a>
-        </p>
-    </footer>
+    <?php require_once('footer.php'); ?>
 </body>
 
 </html>
-
-<?php
-//include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
-include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
-$nombre = $apellidos = $edad = $provincia = "";
-$nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (validarCampoObligatorio($_POST["name"]) && validarFormatoString($_POST["name"]) && validarLongitudNombre($_POST["name"])) {
-        $nombre = $_POST["name"];
-    } else {
-        $nombreErr = "Nombre inválido";
-    }
-
-    if (validarCampoObligatorio($_POST["apellidos"]) && validarFormatoString($_POST["apellidos"]) && validarLongitudApellidos($_POST["apellidos"])) {
-        $apellidos = $_POST["apellidos"];
-    } else {
-        $apellidosErr = "Apellidos inválidos";
-    }
-
-    if (validarCampoObligatorio($_POST["edad"]) && validarEdad($_POST["edad"])) {
-        $edad = $_POST["edad"];
-    } else {
-        $edadErr = "Edad inválida";
-    }
-
-    if (validarCampoObligatorio($_POST["provincia"])) {
-        $provincia = $_POST["provincia"];
-    } else {
-        $provinciaErr = "Provincia inválida";
-    }
-
-    if (validarCampoObligatorio($nombre) && validarCampoObligatorio($apellidos) && validarCampoObligatorio($edad) && validarCampoObligatorio($provincia)) {
-        establecerConexion();
-        crearBaseDeDatos();
-        seleccionarBaseDeDatos();
-        crearTablaUsuarios();
-        guardarUsuarios($nombre, $apellidos, $edad, $provincia);
-        cerrarConexion();
-    }
-}
-?>

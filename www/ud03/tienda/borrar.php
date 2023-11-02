@@ -23,11 +23,7 @@
         cerrarConexion();
         ?>
     </form>
-    <footer>
-        <p>
-            <a href='index.php'>Página de inicio</a>
-        </p>
-    </footer>
+    <?php require_once('footer.php'); ?>
 </body>
 
 </html>

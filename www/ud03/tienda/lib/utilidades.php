@@ -76,13 +76,13 @@ function validarCampoObligatorio($campo)
 // Función de validación de la longitud permitida en nombre
 function validarLongitudNombre($nombre)
 {
-    // Verificar que el campo sea mayor a 0 y menor or igual a 50 
+    // Verificar que el campo sea mayor a 0 y menor o igual a 50 
     return strlen($nombre) <= 50 && strlen($nombre) > 0;
 }
 // Función de validación de la longitud permitida en apellidos
 function validarLongitudApellidos($apellidos)
 {
-    // Verificar que el campo sea mayor a 0 y menor or igual a 100 
+    // Verificar que el campo sea mayor a 0 y menor o igual a 100 
     return strlen($apellidos) <= 100 && strlen($apellidos) > 0;
 }
 
@@ -90,11 +90,13 @@ function validarLongitudApellidos($apellidos)
 
 function validarEdad($edad)
 {
+    // Verificar que el campo sea mayor a 0 y menor 125 
     return $edad >= 0 && $edad < 125;
 }
 
 //Validación de Formato de Datos:
 function validarFormatoString($campo)
 {
+    
     return preg_match('/^[A-Za-zÁÉÍÓÚáéíóúÜü ]+$/', $campo);
 }
