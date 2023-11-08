@@ -169,6 +169,6 @@ function consultarDatosUsuario($id_usuario)
         echo "Error en la consulta: " . mysqli_error($conexion);
     } else if ($resultados->num_rows > 0) {
         // Si se devuelven más de cero filas, devuelve los resultados.
-        return $resultados;
+        return  $datosUsuario = mysqli_fetch_assoc($resultados);
     }
 }

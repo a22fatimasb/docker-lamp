@@ -2,7 +2,8 @@
 include("lib/utilidades.php");
 include("lib/base_datos.php");
 
-
+establecerConexion();
+seleccionarBaseDeDatos();
 
 $nombre = $apellidos = $edad = $provincia = "";
 $nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
