@@ -7,8 +7,10 @@ seleccionarBaseDeDatos();
 
 $nombre = $apellidos = $edad = $provincia = "";
 $nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
+
 if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
     $id = $_GET["id"];
+    //Recuperamos la información inicial del usuario
     $datosUsuario = consultarDatosUsuario($id);
     $nombre = $datosUsuario['nombre'];
     $apellidos = $datosUsuario['apellidos'];
