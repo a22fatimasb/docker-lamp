@@ -356,3 +356,25 @@ function registrarAdministradores($nombre, $contrasena)
         echo "Fallo en la inserción de datos: " . $e->getMessage();
     }
 }
+
+// Función para comprobar si se puede o no realizar la donación (que han pasado 4 meses desde la última donación o que no ha realizado ninguna donación).
+function ultimaDonacion($donanteId, $proximaDonacion = false)
+{
+
+    global $conn;
+    $fechaUltimaDonacion = date('Y-m-d');
+    try {
+        $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo
+                FROM donantes AS d
+                WHERE d.id = :donanteId";
+
+
+
+        if ($proximaDonacion) {
+            $today = ;
+            $sql .= " AND (d.id NOT IN (SELECT h.donante FROM historico AS h WHERE h.fechaProximaDonacion > :today) OR d.id NOT IN (SELECT h.donante FROM historico AS h))";
+        }
+    } catch (PDOException $e) {
+        echo "Fallo en la consulta de datos: " . $e->getMessage();
+    }
+}

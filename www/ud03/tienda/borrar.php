@@ -15,12 +15,16 @@
 
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <?php
-        $id = $_GET["id"];
-        require_once 'lib/base_datos.php';
-        establecerConexion();
-        seleccionarBaseDeDatos();
-        eliminarUsuario($id);
-        cerrarConexion();
+        include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+        // Validar si es un número
+        if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
+            $id = $_GET["id"];
+            require_once 'lib/base_datos.php';
+            establecerConexion();
+            seleccionarBaseDeDatos();
+            eliminarUsuario($id);
+            cerrarConexion();
+        }
         ?>
     </form>
     <?php require_once('footer.php'); ?>

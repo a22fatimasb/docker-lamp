@@ -54,9 +54,9 @@ $provincias = array(
 );
 
 // Función para generar el campo de selección de provincia
-function generarSelectProvincias($provincias)
+function generarSelectProvincias($provincias, $seleccionada = null)
 {
-    $seleccionada = null;
+
     $select = '<select name="provincia">';
     foreach ($provincias as $provincia) {
         $selected = ($seleccionada === $provincia) ? 'selected' : '';
@@ -65,6 +65,9 @@ function generarSelectProvincias($provincias)
     $select .= '</select>';
     return $select;
 }
+
+
+
 
 // Función de validación de campos Obligatorios
 function validarCampoObligatorio($campo)
@@ -97,6 +100,12 @@ function validarEdad($edad)
 //Validación de Formato de Datos:
 function validarFormatoString($campo)
 {
-    
+
     return preg_match('/^[A-Za-zÁÉÍÓÚáéíóúÜü ]+$/', $campo);
+}
+
+// Validación número
+function esNumero($num)
+{
+    return is_numeric($num);
 }

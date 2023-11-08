@@ -147,3 +147,28 @@ function eliminarUsuario($id_usuario)
 
     $stmt->close();
 }
+
+// Función para consultar usuario por ID
+function consultarDatosUsuario($id_usuario)
+{
+    global $conexion;
+
+    // Preparar la consulta
+    $sql = "SELECT * FROM usuarios WHERE id=?";
+    $stm = $conexion->prepare($sql);
+    $stm->bind_param("i", $id_usuario);
+
+    // Ejecutar la consulta preparada
+    $stm->execute();
+
+    // Obtener los resultados
+    $resultados = $stm->get_result();
+
+    if ($resultados === false) {
+        // La consulta no se ejecutó correctamente, muestra un mensaje de error.
+        echo "Error en la consulta: " . mysqli_error($conexion);
+    } else if ($resultados->num_rows > 0) {
+        // Si se devuelven más de cero filas, devuelve los resultados.
+        return $resultados;
+    }
+}
