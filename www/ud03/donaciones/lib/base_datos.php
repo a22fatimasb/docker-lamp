@@ -11,12 +11,12 @@ function establecerConexion()
     global $servername, $username, $password, $conn;
 
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=donacion", $username, $password);
+        $conn = new PDO("mysql:host=$servername", $username, $password);
         // Forzar excepciones
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Conexión correcta";
+        echo "<br>Conexión correcta";
     } catch (PDOException $e) {
-        echo "Fallo en conexión: " . $e->getMessage();
+        echo "<br>Fallo en conexión: " . $e->getMessage();
     }
 }
 
@@ -36,7 +36,7 @@ function crearBaseDeDatos()
         $sql = "CREATE DATABASE IF NOT EXISTS donacion";
         // use exec() because no results are returned
         $conn->exec($sql);
-        echo "Base de datos creada correctamente<br>";
+        echo "<br>Base de datos creada correctamente<br>";
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
@@ -46,12 +46,20 @@ function crearBaseDeDatos()
 function seleccionarBaseDeDatos()
 {
     global $conn;
-    if ($conn->exec('USE donacion')) {
+    
+    try {
+        // Seleccionar la base de datos
+        $conn->exec('USE donacion');
+
+        // Si no hay excepciones, la base de datos se seleccionó correctamente
+        
         echo "<br>Base de datos 'donacion' seleccionada correctamente";
-    } else {
-        echo "<br>Error al seleccionar la base de datos 'donacion': " . $conn->errorInfo()[2];
+    } catch (PDOException $e) {
+        // En caso de error, mostrar el mensaje de error
+        echo "Error al seleccionar la base de datos 'donacion': " . $e->getMessage();
     }
 }
+
 
 
 // Función para crear una tabla donantes
@@ -70,9 +78,9 @@ function crearTablaDonantes()
             telefono CHAR(9) NOT NULL
         )";
         $conn->exec($sql);
-        echo "La tabla fue creada correctamente";
+        echo "<br>La tabla fue creada correctamente";
     } catch (PDOException $e) {
-        echo "Fallo en la creación de la tabla: " . $e->getMessage();
+        echo "<br>Fallo en la creación de la tabla: " . $e->getMessage();
     }
 }
 // Función para crear una tabla historico
@@ -89,9 +97,9 @@ function crearTablaHistorico()
             FOREIGN KEY (donante) REFERENCES donantes(id)
         )";
         $conn->exec($sql);
-        echo "La tabla fue creada correctamente";
+        echo "<br>La tabla fue creada correctamente";
     } catch (PDOException $e) {
-        echo "Fallo en la creación de la tabla: " . $e->getMessage();
+        echo "<br>Fallo en la creación de la tabla: " . $e->getMessage();
     }
 }
 
@@ -107,9 +115,9 @@ function crearTablaAdministradores()
             contrasena VARCHAR(200) NOT NULL            
         )";
         $conn->exec($sql);
-        echo "La tabla fue creada correctamente";
+        echo "<br>La tabla fue creada correctamente";
     } catch (PDOException $e) {
-        echo "Fallo en la creación de la tabla: " . $e->getMessage();
+        echo "<br>Fallo en la creación de la tabla: " . $e->getMessage();
     }
 }
 
@@ -131,9 +139,9 @@ function registrarDonantes($nombre, $apellidos, $edad, $grupo_sanguineo, $codigo
 
         $stmt->execute();
 
-        echo "Los datos fueron insertados correctamente.";
+        echo "<br>Los datos fueron insertados correctamente.";
     } catch (PDOException $e) {
-        echo "Fallo en la inserción de datos: " . $e->getMessage();
+        echo "<br>Fallo en la inserción de datos: " . $e->getMessage();
     }
 }
 
@@ -165,7 +173,7 @@ function mostrarListaDonantes()
         }
         echo "</table>";
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "<br>Error: " . $e->getMessage();
     }
 }
 // Función para registrar donación
@@ -188,9 +196,9 @@ function registrarDonacion($donanteId)
         $stmt->bindParam(':fechaProximaDonacion', $fechaProximaDonacion);
         $stmt->execute();
 
-        echo "Donación registrada con éxito.";
+        echo "<br>Donación registrada con éxito.";
     } catch (PDOException $e) {
-        echo "Fallo en el registro de la donación: " . $e->getMessage();
+        echo "<br>Fallo en el registro de la donación: " . $e->getMessage();
     }
 }
 
@@ -217,12 +225,12 @@ function eliminarDonante($donanteId)
         // Confirmar la transacción
         $conn->commit();
 
-        echo "Donante y sus donaciones eliminados con éxito.";
+        echo "<br>Donante y sus donaciones eliminados con éxito.";
     } catch (PDOException $e) {
         // En caso de error, revertir la transacción
         $conn->rollBack();
 
-        echo "Fallo en la eliminación del donante: " . $e->getMessage();
+        echo "<br>Fallo en la eliminación del donante: " . $e->getMessage();
     }
 }
 
@@ -274,10 +282,10 @@ function mostrarListaDonacionesDeDonante($donanteId)
 
             echo "</table>";
         } else {
-            echo "Este donante no tiene donaciones registradas.";
+            echo "<br>Este donante no tiene donaciones registradas.";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "<br>Error: " . $e->getMessage();
     }
 }
 
@@ -331,10 +339,10 @@ function buscarDonantes($codigoPostal, $tipoSangre = null, $proximaDonacion = fa
             }
             echo "</table>";
         } else {
-            echo "No se encontraron donantes que cumplan con los criterios de búsqueda.";
+            echo "<br>No se encontraron donantes que cumplan con los criterios de búsqueda.";
         }
     } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        echo "<br>Error: " . $e->getMessage();
     }
 }
 
@@ -351,30 +359,62 @@ function registrarAdministradores($nombre, $contrasena)
 
         $stmt->execute();
 
-        echo "Los datos fueron insertados correctamente.";
+        echo "<br>Los datos fueron insertados correctamente.";
     } catch (PDOException $e) {
-        echo "Fallo en la inserción de datos: " . $e->getMessage();
+        echo "<br>Fallo en la inserción de datos: " . $e->getMessage();
     }
 }
 
-// Función para comprobar si se puede o no realizar la donación (que han pasado 4 meses desde la última donación o que no ha realizado ninguna donación).
 function ultimaDonacion($donanteId, $proximaDonacion = false)
 {
-
     global $conn;
-    $fechaUltimaDonacion = date('Y-m-d');
+    $today = date('Y-m-d');
+
     try {
-        $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo
+        $sql = "SELECT d.id, d.nombre, d.apellidos
                 FROM donantes AS d
                 WHERE d.id = :donanteId";
 
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':donanteId', $donanteId);
+        $stmt->execute();
 
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        if ($proximaDonacion) {
-            $today = ;
-            $sql .= " AND (d.id NOT IN (SELECT h.donante FROM historico AS h WHERE h.fechaProximaDonacion > :today) OR d.id NOT IN (SELECT h.donante FROM historico AS h))";
+        if (count($resultados) > 0) {
+            foreach ($resultados as $row) {
+                // Verificar si han pasado 4 meses desde la última donación o si no ha realizado ninguna donación
+                $puedeDonar = true; // Suponemos que puede donar por defecto
+
+                if ($proximaDonacion) {
+                    $stmt2 = $conn->prepare("SELECT h.fechaProximaDonacion FROM historico AS h WHERE h.donante = :donanteId ORDER BY h.fechaProximaDonacion DESC LIMIT 1");
+                    $stmt2->bindParam(':donanteId', $donanteId);
+                    $stmt2->execute();
+                    $ultimaDonacion = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                    if ($ultimaDonacion) {
+                        // Calcular la diferencia en meses
+                        $fechaUltimaDonacion = new DateTime($ultimaDonacion['fechaProximaDonacion']);
+                        $fechaHoy = new DateTime($today);
+                        $diferencia = $fechaUltimaDonacion->diff($fechaHoy);
+
+                        if ($diferencia->m < 4) {
+                            $puedeDonar = false; // No puede donar si no han pasado 4 meses
+                        }
+                    }
+                }
+
+                // Imprimir el mensaje según la condición
+                if ($puedeDonar) {
+                    echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " puede hacer la donación.</p>";
+                } else {
+                    echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " no puede hacer la donación.</p>";
+                }
+            }
+        } else {
+            echo "<p>No se encontraron datos para el donante con ID $donanteId.</p>";
         }
     } catch (PDOException $e) {
-        echo "Fallo en la consulta de datos: " . $e->getMessage();
+        echo "<br>Fallo en la consulta de datos: " . $e->getMessage();
     }
 }

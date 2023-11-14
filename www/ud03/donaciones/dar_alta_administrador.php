@@ -1,3 +1,40 @@
+<?php
+include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
+
+$nombre = $contrasena = "";
+$nombreErr = $contrasenaErr = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validación de datos
+    $nombre = $_POST["name"];
+    $contrasena = $_POST["contrasena"];
+    
+
+    if (!validarCampoObligatorio($nombre) || !validarFormatoString($nombre) || !validarLongitudNombre($nombre)) {
+        $nombreErr = "Nombre inválido";
+    }
+
+    if (!validarCampoObligatorio($contrasena) || !validarLongitudContraseña($contrasena)) {
+        $contraseñnErr = "Contraseña inválida";
+    }
+
+   
+
+    
+    // Si todos los datos son válidos, guardar al nuevo usuario
+    if (empty($nombreErr) && empty($contrasenaErr)) {
+
+        establecerConexion();
+        crearBaseDeDatos();
+        seleccionarBaseDeDatos();
+        crearTablaAdministradores();
+        registrarAdministradores($nombre, $contrasena);
+        cerrarConexion();
+    }
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -17,6 +54,20 @@
     <h1>Alta de administrador</h1>
     <div>
         Formulario para dar de alta un administrador
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name">
+            <span class="error"><?php echo $nombreErr; ?></span>
+            <br><br>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena">
+            <span class="error"><?php echo $contrasenaErr; ?></span>
+            <br><br>
+
+            <input type="submit" name="submit" value="Actualizar">
+        </form>
     </div>
 
     <footer>

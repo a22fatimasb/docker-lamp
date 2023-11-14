@@ -17,6 +17,13 @@
     <h1>Gestión donacion de Sangre</h1>
     <div>
         Listado de donantes
+        <?php require_once 'lib/base_datos.php';
+        establecerConexion();
+        seleccionarBaseDeDatos();
+        echo mostrarListaDonantes();
+        cerrarConexion();
+        ?>
+    </table>
     </div>
 
     <footer>
