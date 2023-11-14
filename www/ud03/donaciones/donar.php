@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="en">
 
@@ -17,6 +19,21 @@
     <h1>Alta de donación</h1>
     <div>
         Formulario para dar de alta una donación
+        <?php
+         include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+         // Validar si es un número
+         if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
+             $id = $_GET["id"];
+             require_once 'lib/base_datos.php';
+        establecerConexion();
+        crearBaseDeDatos();
+        seleccionarBaseDeDatos();
+        crearTablaHistorico();
+        registrarDonacion($id);
+        cerrarConexion();
+         }
+        ?>
+       
     </div>
 
     <footer>

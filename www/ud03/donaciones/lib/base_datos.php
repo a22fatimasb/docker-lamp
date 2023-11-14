@@ -50,12 +50,10 @@ function seleccionarBaseDeDatos()
     try {
         // Seleccionar la base de datos
         $conn->exec('USE donacion');
-
-        // Si no hay excepciones, la base de datos se seleccionó correctamente
-        
+        // Si no saltan excepciones que se ha seleccionado correctamente la base de datos
         echo "<br>Base de datos 'donacion' seleccionada correctamente";
     } catch (PDOException $e) {
-        // En caso de error, mostrar el mensaje de error
+        // Si se produce un error mostrar el mensaje de error
         echo "Error al seleccionar la base de datos 'donacion': " . $e->getMessage();
     }
 }
