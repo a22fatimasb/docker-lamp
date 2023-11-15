@@ -405,12 +405,15 @@ function ultimaDonacion($donanteId, $proximaDonacion = false)
                 // Imprimir el mensaje según la condición
                 if ($puedeDonar) {
                     echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " puede hacer la donación.</p>";
+                    return true;
                 } else {
                     echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " no puede hacer la donación.</p>";
+                    return false;
                 }
             }
         } else {
             echo "<p>No se encontraron datos para el donante con ID $donanteId.</p>";
+            return false;
         }
     } catch (PDOException $e) {
         echo "<br>Fallo en la consulta de datos: " . $e->getMessage();

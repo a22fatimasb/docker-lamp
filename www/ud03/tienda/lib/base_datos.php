@@ -12,7 +12,7 @@ function establecerConexion()
     if ($conexion->connect_errno) {
         die("Fallo en la conexión: " . $conexion->connect_error);
     }
-    echo "<br>Conexión a la base de datos establecida correctamente";
+   // echo "<br>Conexión a la base de datos establecida correctamente";
 }
 
 // Función para cerrar la conexión a la base de datos
@@ -21,7 +21,7 @@ function cerrarConexion()
     global $conexion;
     if ($conexion) {
         $conexion->close();
-        echo "<br>Conexión a la base de datos cerrada";
+        //echo "<br>Conexión a la base de datos cerrada";
     }
 }
 
@@ -31,7 +31,7 @@ function crearBaseDeDatos()
     global $conexion;
     $sql = "CREATE DATABASE IF NOT EXISTS tienda";
     if ($conexion->query($sql)) {
-        echo "<br>Base de datos 'tienda' creada correctamente";
+       // echo "<br>Base de datos 'tienda' creada correctamente";
     } else {
         echo "<br>Error creando la base de datos 'tienda': " . $conexion->error;
     }
@@ -42,7 +42,7 @@ function seleccionarBaseDeDatos()
 {
     global $conexion;
     if ($conexion->select_db('tienda')) {
-        echo "<br>Base de datos 'tienda' seleccionada correctamente";
+        //echo "<br>Base de datos 'tienda' seleccionada correctamente";
     } else {
         echo "<br>Error al seleccionar la base de datos 'tienda': " . $conexion->error;
     }
