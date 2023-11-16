@@ -1,6 +1,6 @@
 <?php
 // Lista de los grupos sanguineos
-$grupos_sanguineos = array('O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+');
+$grupos_sanguineos = array(null,'O-', 'O+', 'A-', 'A+', 'B-', 'B+', 'AB-', 'AB+');
 
 function generarSelectGS($grupos_sanguineos, $seleccionada = null)
 {
@@ -13,6 +13,17 @@ function generarSelectGS($grupos_sanguineos, $seleccionada = null)
     return $select;
 }
 
+/* Función que valide grupo sanguíneo correcto
+function validarGrupoSanguineo($campo){
+global $grupos_sanguineos;
+    foreach($grupos_sanguineos as $grupo){
+       if($campo === $grupo){
+        return true;
+       }
+    }
+    return false;
+}
+*/
 
 // Función de validación de campos Obligatorios
 function validarCampoObligatorio($campo)
@@ -71,3 +82,4 @@ function validarTelefono($campo){
     return preg_match('/^[0-9]{9}$/', $campo);
 }
 ?>
+

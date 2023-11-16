@@ -14,7 +14,7 @@ function establecerConexion()
         $conn = new PDO("mysql:host=$servername", $username, $password);
         // Forzar excepciones
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "<br>Conexión correcta";
+        //echo "<br>Conexión correcta";
     } catch (PDOException $e) {
         echo "<br>Fallo en conexión: " . $e->getMessage();
     }
@@ -36,7 +36,7 @@ function crearBaseDeDatos()
         $sql = "CREATE DATABASE IF NOT EXISTS donacion";
         // use exec() because no results are returned
         $conn->exec($sql);
-        echo "<br>Base de datos creada correctamente<br>";
+        // echo "<br>Base de datos creada correctamente<br>";
     } catch (PDOException $e) {
         echo $sql . "<br>" . $e->getMessage();
     }
@@ -46,12 +46,12 @@ function crearBaseDeDatos()
 function seleccionarBaseDeDatos()
 {
     global $conn;
-    
+
     try {
         // Seleccionar la base de datos
         $conn->exec('USE donacion');
         // Si no saltan excepciones que se ha seleccionado correctamente la base de datos
-        echo "<br>Base de datos 'donacion' seleccionada correctamente";
+        // echo "<br>Base de datos 'donacion' seleccionada correctamente";
     } catch (PDOException $e) {
         // Si se produce un error mostrar el mensaje de error
         echo "Error al seleccionar la base de datos 'donacion': " . $e->getMessage();
@@ -95,7 +95,7 @@ function crearTablaHistorico()
             FOREIGN KEY (donante) REFERENCES donantes(id)
         )";
         $conn->exec($sql);
-        echo "<br>La tabla fue creada correctamente";
+        // echo "<br>La tabla fue creada correctamente";
     } catch (PDOException $e) {
         echo "<br>Fallo en la creación de la tabla: " . $e->getMessage();
     }
@@ -113,7 +113,7 @@ function crearTablaAdministradores()
             contrasena VARCHAR(200) NOT NULL            
         )";
         $conn->exec($sql);
-        echo "<br>La tabla fue creada correctamente";
+        // echo "<br>La tabla fue creada correctamente";
     } catch (PDOException $e) {
         echo "<br>Fallo en la creación de la tabla: " . $e->getMessage();
     }
@@ -156,7 +156,7 @@ function mostrarListaDonantes()
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         echo "<table>";
-        echo "<tr><<th>Nombre</th><th>Apellidos</th><th>Edad</th><th>Grupo Sanguíneo</th><th>Acciones</th></tr>";
+        echo "<tr><th>Nombre</th><th>Apellidos</th><th>Edad</th><th>Grupo Sanguíneo</th><th>Acciones</th></tr>";
 
         foreach ($resultados as $row) {
             echo "<tr>";
@@ -175,12 +175,23 @@ function mostrarListaDonantes()
     }
 }
 // Función para registrar donación
-function registrarDonacion($donanteId)
+function registrarDonacion($donanteId, $fechaDonacion)
 {
     global $conn;
     try {
-        // Obtener la fecha actual
-        $fechaDonacion = date('Y-m-d');
+        $today = date('Y-m-d');  // Solo la fecha actual
+
+        // Verificar que fechaDonacion sea anterior 
+        if ($fechaDonacion > $today) {
+            echo "<br>Error! La fecha de donación no puede ser en el futuro.";
+            return;
+        }
+        // Verificar que la persona pueda donar
+        if (!ultimaDonacion($donanteId, true)) {
+            echo "<br>No ha pasado el tiempo suficiente desde la última donación";
+            return;
+        }
+
 
         // Calcular la fecha de la próxima donación (4 meses después)
         $fechaProximaDonacion = date('Y-m-d', strtotime($fechaDonacion . ' + 4 months'));
@@ -289,33 +300,28 @@ function mostrarListaDonacionesDeDonante($donanteId)
 
 // Función para buscar donantes por código postal y, optativamente, por tipo de sangre.
 // Se mostrarán los donantes que cumplan con los criterios de búsqueda y optativamente cuya próxima fecha de donación sea posterior a la fecha actual o que no tengan donación.
-function buscarDonantes($codigoPostal, $tipoSangre = null, $proximaDonacion = false)
+function buscarDonantes($codigoPostal, $tipoSangre = null)
 {
     global $conn;
 
+
     try {
-        $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo
-                FROM donantes AS d
-                WHERE d.codigo_postal = :codigoPostal";
+        // Agrega comodines % al código postal cuando solo se proporciona el código postal
+        $codigoPostalLike = "%" . $codigoPostal . "%";
+
+        $sql = "SELECT * FROM donantes WHERE codigo_postal LIKE :codigoPostalLike";
 
         if ($tipoSangre !== null) {
-            $sql .= " AND d.grupo_sanguineo = :tipoSangre";
-        }
-
-        if ($proximaDonacion) {
-            $today = date('Y-m-d');
-            $sql .= " AND (d.id NOT IN (SELECT h.donante FROM historico AS h WHERE h.fechaProximaDonacion > :today) OR d.id NOT IN (SELECT h.donante FROM historico AS h))";
+            $sql .= " AND grupo_sanguineo LIKE :tipoSangre";
         }
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':codigoPostal', $codigoPostal);
+
+        // Utiliza el nuevo valor con comodines para el código postal
+        $stmt->bindParam(':codigoPostalLike', $codigoPostalLike);
 
         if ($tipoSangre !== null) {
             $stmt->bindParam(':tipoSangre', $tipoSangre);
-        }
-
-        if ($proximaDonacion) {
-            $stmt->bindParam(':today', $today);
         }
 
         $stmt->execute();
@@ -328,12 +334,15 @@ function buscarDonantes($codigoPostal, $tipoSangre = null, $proximaDonacion = fa
             echo "<tr><th>Nombre</th><th>Apellidos</th><th>Edad</th><th>Grupo Sanguíneo</th></tr>";
 
             foreach ($resultados as $row) {
-                echo "<tr>";
-                echo "<td>" . $row['nombre'] . "</td>";
-                echo "<td>" . $row['apellidos'] . "</td>";
-                echo "<td>" . $row['edad'] . "</td>";
-                echo "<td>" . $row['grupo_sanguineo'] . "</td>";
-                echo "</tr>";
+                if (ultimaDonacion($row['id'], true)) {
+                    echo "<tr>";
+                    echo "<td>" . (isset($row['nombre']) ? $row['nombre'] : '') . "</td>";
+                    echo "<td>" . (isset($row['apellidos']) ? $row['apellidos'] : '') . "</td>";
+                    echo "<td>" . (isset($row['edad']) ? $row['edad'] : '') . "</td>";
+                    echo "<td>" . (isset($row['telefono']) ? $row['telefono'] : '') . "</td>";
+                    echo "<td>" . $row['grupo_sanguineo'] . "</td>";
+                    echo "</tr>";
+                }
             }
             echo "</table>";
         } else {
@@ -382,7 +391,7 @@ function ultimaDonacion($donanteId, $proximaDonacion = false)
         if (count($resultados) > 0) {
             foreach ($resultados as $row) {
                 // Verificar si han pasado 4 meses desde la última donación o si no ha realizado ninguna donación
-                $puedeDonar = true; // Suponemos que puede donar por defecto
+                $puedeDonar = true; // Por defecto suponemos que puede donar
 
                 if ($proximaDonacion) {
                     $stmt2 = $conn->prepare("SELECT h.fechaProximaDonacion FROM historico AS h WHERE h.donante = :donanteId ORDER BY h.fechaProximaDonacion DESC LIMIT 1");
@@ -399,15 +408,18 @@ function ultimaDonacion($donanteId, $proximaDonacion = false)
                         if ($diferencia->m < 4) {
                             $puedeDonar = false; // No puede donar si no han pasado 4 meses
                         }
+                    } else {
+                        // El donante no tiene donaciones registradas
+                        $puedeDonar = true;
                     }
                 }
 
-                // Imprimir el mensaje según la condición
+                // Devolvemos true o false segundo la condición
                 if ($puedeDonar) {
-                    echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " puede hacer la donación.</p>";
+                    //echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " puede hacer la donación.</p>";
                     return true;
                 } else {
-                    echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " no puede hacer la donación.</p>";
+                    //echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " no puede hacer la donación.</p>";
                     return false;
                 }
             }
