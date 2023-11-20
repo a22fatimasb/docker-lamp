@@ -12,13 +12,12 @@ function establecerConexion()
 
     try {
         $conn = new PDO("mysql:host=$servername", $username, $password);
-        // Forzar excepciones
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo "<br>Conexión correcta";
     } catch (PDOException $e) {
-        echo "<br>Fallo en conexión: " . $e->getMessage();
+        throw new Exception("Fallo en conexión: " . $e->getMessage());
     }
 }
+
 
 
 // Función de cierre de conexión
@@ -27,6 +26,7 @@ function cerrarConexion()
     global $conn;
     $conn = null;
 }
+
 
 // Función para crear una base de datos si no existe
 function crearBaseDeDatos()
@@ -298,26 +298,26 @@ function mostrarListaDonacionesDeDonante($donanteId)
     }
 }
 
-// Función para buscar donantes por código postal y, optativamente, por tipo de sangre.
-// Se mostrarán los donantes que cumplan con los criterios de búsqueda y optativamente cuya próxima fecha de donación sea posterior a la fecha actual o que no tengan donación.
 function buscarDonantes($codigoPostal, $tipoSangre = null)
 {
     global $conn;
 
-
     try {
-        // Agrega comodines % al código postal cuando solo se proporciona el código postal
+        // Agregamos comodines % al código postal cuando solo se proporciona el código postal
         $codigoPostalLike = "%" . $codigoPostal . "%";
 
-        $sql = "SELECT * FROM donantes WHERE codigo_postal LIKE :codigoPostalLike";
+        $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo, MAX(h.fechaProximaDonacion) AS ultimaDonacion
+                FROM donantes d
+                LEFT JOIN historico h ON d.id = h.donante
+                WHERE d.codigo_postal LIKE :codigoPostalLike";
 
         if ($tipoSangre !== null) {
-            $sql .= " AND grupo_sanguineo LIKE :tipoSangre";
+            $sql .= " AND d.grupo_sanguineo LIKE :tipoSangre";
         }
 
-        $stmt = $conn->prepare($sql);
+        $sql .= " GROUP BY d.id";
 
-        // Utiliza el nuevo valor con comodines para el código postal
+        $stmt = $conn->prepare($sql);
         $stmt->bindParam(':codigoPostalLike', $codigoPostalLike);
 
         if ($tipoSangre !== null) {
@@ -334,12 +334,26 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
             echo "<tr><th>Nombre</th><th>Apellidos</th><th>Edad</th><th>Grupo Sanguíneo</th></tr>";
 
             foreach ($resultados as $row) {
-                if (ultimaDonacion($row['id'], true)) {
+                $puedeDonar = true; // Inicializamos a true puedeDonar ya que por defecto suponemos que puede
+
+                if ($row['ultimaDonacion'] !== null) {
+                    // Calcular la diferencia en meses
+                    $fechaUltimaDonacion = new DateTime($row['ultimaDonacion']);
+                    $fechaHoy = new DateTime();
+                    // Usamo diff para calcular la diferencia entre los dos objetos DateTime (la fecha actual y la fecha de la última donación)
+                    $diferencia = $fechaUltimaDonacion->diff($fechaHoy);
+
+                    if ($diferencia->m < 4) {
+                        $puedeDonar = false; // No puede donar si no han pasado 4 meses
+                    }
+                }
+
+                // Mostrar los donantes que cumplen con los criterios
+                if ($puedeDonar) {
                     echo "<tr>";
                     echo "<td>" . (isset($row['nombre']) ? $row['nombre'] : '') . "</td>";
                     echo "<td>" . (isset($row['apellidos']) ? $row['apellidos'] : '') . "</td>";
                     echo "<td>" . (isset($row['edad']) ? $row['edad'] : '') . "</td>";
-                    echo "<td>" . (isset($row['telefono']) ? $row['telefono'] : '') . "</td>";
                     echo "<td>" . $row['grupo_sanguineo'] . "</td>";
                     echo "</tr>";
                 }
@@ -352,6 +366,8 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
         echo "<br>Error: " . $e->getMessage();
     }
 }
+
+
 
 // Función para registrar nuevos administradores.
 function registrarAdministradores($nombre, $contrasena)
@@ -378,56 +394,29 @@ function ultimaDonacion($donanteId, $proximaDonacion = false)
     $today = date('Y-m-d');
 
     try {
-        $sql = "SELECT d.id, d.nombre, d.apellidos
-                FROM donantes AS d
-                WHERE d.id = :donanteId";
+        $sql = "SELECT MAX(h.fechaProximaDonacion) AS ultimaDonacion
+                FROM historico AS h
+                WHERE h.donante = :donanteId";
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':donanteId', $donanteId);
         $stmt->execute();
 
-        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $ultimaDonacion = $stmt->fetch(PDO::FETCH_ASSOC)['ultimaDonacion'];
 
-        if (count($resultados) > 0) {
-            foreach ($resultados as $row) {
-                // Verificar si han pasado 4 meses desde la última donación o si no ha realizado ninguna donación
-                $puedeDonar = true; // Por defecto suponemos que puede donar
+        if ($ultimaDonacion !== null && $proximaDonacion) {
+            // Verificar si han pasado 4 meses desde la última donación
+            $fechaUltimaDonacion = new DateTime($ultimaDonacion);
+            $fechaHoy = new DateTime($today);
+            $diferencia = $fechaUltimaDonacion->diff($fechaHoy);
 
-                if ($proximaDonacion) {
-                    $stmt2 = $conn->prepare("SELECT h.fechaProximaDonacion FROM historico AS h WHERE h.donante = :donanteId ORDER BY h.fechaProximaDonacion DESC LIMIT 1");
-                    $stmt2->bindParam(':donanteId', $donanteId);
-                    $stmt2->execute();
-                    $ultimaDonacion = $stmt2->fetch(PDO::FETCH_ASSOC);
-
-                    if ($ultimaDonacion) {
-                        // Calcular la diferencia en meses
-                        $fechaUltimaDonacion = new DateTime($ultimaDonacion['fechaProximaDonacion']);
-                        $fechaHoy = new DateTime($today);
-                        $diferencia = $fechaUltimaDonacion->diff($fechaHoy);
-
-                        if ($diferencia->m < 4) {
-                            $puedeDonar = false; // No puede donar si no han pasado 4 meses
-                        }
-                    } else {
-                        // El donante no tiene donaciones registradas
-                        $puedeDonar = true;
-                    }
-                }
-
-                // Devolvemos true o false segundo la condición
-                if ($puedeDonar) {
-                    //echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " puede hacer la donación.</p>";
-                    return true;
-                } else {
-                    //echo "<p>La persona " . $row['nombre'] . " " . $row['apellidos'] . " no puede hacer la donación.</p>";
-                    return false;
-                }
-            }
-        } else {
-            echo "<p>No se encontraron datos para el donante con ID $donanteId.</p>";
-            return false;
+            return ($diferencia->m >= 4);
         }
+
+        return true;
     } catch (PDOException $e) {
         echo "<br>Fallo en la consulta de datos: " . $e->getMessage();
+        return false;
     }
 }
+  
