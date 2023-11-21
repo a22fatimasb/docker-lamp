@@ -1,10 +1,11 @@
 <?php
 include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
 include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
-
+establecerConexion();
+seleccionarBaseDeDatos();
 $grupo_sanguineo = null;
 $codigo_postal  = "";
-$grupoSanguineoErr = $codigoPostalErr  = "";
+$codigoPostalErr  = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validación de datos
@@ -13,11 +14,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $codigo_postal = $_POST["codigo_postal"];
 
 
-
-    if (!validarCampoObligatorio($grupo_sanguineo)) {
-        $grupoSanguineoErr = "Grupo sanguíneo inválido";
-    }
-
     if (!validarCodigoPostal($codigo_postal)) {
         $codigoPostalErr = "Código Postal inválido";
     }
@@ -25,15 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Si todos los datos son válidos, realizar la búsqueda de donantes
     if (validarCodigoPostal($codigo_postal)) {
-        establecerConexion();
-        seleccionarBaseDeDatos();
+
         if ($grupo_sanguineo === null || $grupo_sanguineo === "") {
             buscarDonantes($codigo_postal);
         } else {
             buscarDonantes($codigo_postal, $grupo_sanguineo);
         }
-
-        cerrarConexion();
     }
 }
 ?>
@@ -59,16 +52,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 
 
-
-            <label for="grupo_sanguineo">Introduce el grupo sanguíneo que desees buscar(opcional):</label>
-            <?php echo generarSelectGS($grupos_sanguineos); ?>
-            <span class="error"><?php echo $grupoSanguineoErr; ?></span>
-            <br><br>
-
-            <label for="codigo_postal">Introduce el Código Postal por el que desees buscar:</label>
-            <input type="text" id="codigo_postal" name="codigo_postal">
-            <span class="error"><?php echo $codigoPostalErr; ?></span>
-            <br><br>
+            <div class="campo">
+                <label for="grupo_sanguineo">Introduce el grupo sanguíneo que desees buscar(opcional):</label>
+                <?php echo generarSelectGS($grupos_sanguineos); ?>
+            </div>
+            <div class="campo">
+                <label for="codigo_postal">Introduce el Código Postal por el que desees buscar:</label>
+                <input type="text" id="codigo_postal" name="codigo_postal">
+                <span class="error"><?php echo $codigoPostalErr; ?></span>
+            </div>
 
 
 
@@ -83,3 +75,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
+<?php cerrarConexion(); ?>

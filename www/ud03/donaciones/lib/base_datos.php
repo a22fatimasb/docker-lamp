@@ -103,7 +103,8 @@ function crearTablaAdministradores()
 
     try {
         $sql = "CREATE TABLE IF NOT EXISTS administradores (
-            nombre_usuario VARCHAR(50) PRIMARY KEY NOT NULL,
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre_usuario VARCHAR(50) NOT NULL,
             contrasena VARCHAR(200) NOT NULL            
         )";
         $conn->exec($sql);
@@ -318,9 +319,15 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
         // Agregamos comodines % al código postal cuando solo se proporciona el código postal
         $codigoPostalLike = "%" . $codigoPostal . "%";
 
+        /*
         $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo, MAX(h.fechaProximaDonacion) AS ultimaDonacion
                 FROM donantes d
                 LEFT JOIN historico h ON d.id = h.donante
+                WHERE d.codigo_postal LIKE :codigoPostalLike";
+        */
+
+        $sql = "SELECT d.id, d.nombre, d.apellidos, d.edad, d.grupo_sanguineo
+                FROM donantes d
                 WHERE d.codigo_postal LIKE :codigoPostalLike";
 
         if ($tipoSangre !== null) {
@@ -346,8 +353,9 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
             echo "<tr><th>Nombre</th><th>Apellidos</th><th>Edad</th><th>Grupo Sanguíneo</th></tr>";
 
             foreach ($resultados as $row) {
-                $puedeDonar = true; // Inicializamos a true puedeDonar ya que por defecto suponemos que puede
+                // $puedeDonar = true; // Inicializamos a true puedeDonar ya que por defecto suponemos que puede
 
+                /*
                 if ($row['ultimaDonacion'] !== null) {
                     // Calcular la diferencia en meses
                     $fechaUltimaDonacion = new DateTime($row['ultimaDonacion']);
@@ -359,9 +367,11 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
                         $puedeDonar = false; // No puede donar si no han pasado 4 meses
                     }
                 }
+                */
 
                 // Mostrar los donantes que cumplen con los criterios
-                if ($puedeDonar) {
+                // if ($puedeDonar) {
+                if (ultimaDonacion($row['id'])) {
                     echo "<tr>";
                     echo "<td>" . (isset($row['nombre']) ? $row['nombre'] : '') . "</td>";
                     echo "<td>" . (isset($row['apellidos']) ? $row['apellidos'] : '') . "</td>";
@@ -378,7 +388,6 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
         echo "<br>Error: " . $e->getMessage();
     }
 }
-
 
 function ultimaDonacion($donanteId)
 {
@@ -411,4 +420,3 @@ function ultimaDonacion($donanteId)
         return false;
     }
 }
-

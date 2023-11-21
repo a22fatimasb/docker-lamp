@@ -1,6 +1,9 @@
 <?php
 include("lib/utilidades.php");
-
+require_once ('lib/base_datos.php');
+establecerConexion();
+seleccionarBaseDeDatos();
+crearTablaHistorico();
 // Obtener el valor de id de la URL
 $id = isset($_GET["id"]) ? $_GET["id"] : null;
 $fechaDonacion = isset($_POST["fechaDonacion"]) ? $_POST["fechaDonacion"] : null;
@@ -11,17 +14,15 @@ $fechaDonacionErr = "";
 if ($id !== null && esNumero($id)) {
     // Resto del código
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once 'lib/base_datos.php';
+        
 
         if (!validarCampoObligatorio($fechaDonacion)) {
             $fechaDonacionErr = "Nombre inválido";
-        } 
-        if(empty($fechaDonacionErr)){
-            establecerConexion();
-            seleccionarBaseDeDatos();
-            crearTablaHistorico();
+        }
+        if (empty($fechaDonacionErr)) {
+
             registrarDonacion($id, $fechaDonacion);
-            cerrarConexion();
+            
         }
     }
 }
@@ -60,3 +61,5 @@ if ($id !== null && esNumero($id)) {
 </body>
 
 </html>
+
+<?php cerrarConexion(); ?>

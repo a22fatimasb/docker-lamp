@@ -1,7 +1,10 @@
 <?php
 include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
 include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
-
+establecerConexion();
+crearBaseDeDatos();
+seleccionarBaseDeDatos();
+crearTablaDonantes();
 $nombre = $apellidos = $edad = $grupo_sanguineo = $codigo_postal = $telefono = "";
 $nombreErr = $apellidosErr = $edadErr = $grupoSanguineoErr = $codigoPostalErr = $telefonoErr = "";
 
@@ -42,12 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Si todos los datos son válidos, guardar al nuevo usuario
     if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($grupoSanguineoErr) && empty($codigoPostalErr) && empty($telefonoErr)) {
 
-        establecerConexion();
-        crearBaseDeDatos();
-        seleccionarBaseDeDatos();
-        crearTablaDonantes();
+
         registrarDonantes($nombre, $apellidos, $edad, $grupo_sanguineo, $codigo_postal, $telefono);
-        cerrarConexion();
     }
 }
 ?>
@@ -70,37 +69,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <p>Formulario para dar de alta un donante</p>
 
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <form method="post" class="formDonacion" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            <div class="campo">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name">
+                <span class="error"><?php echo $nombreErr; ?></span>
+            </div>
+            <div class="campo">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" name="apellidos">
+                <span class="error"><?php echo $apellidosErr; ?></span>
 
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name">
-            <span class="error"><?php echo $nombreErr; ?></span>
-            <br><br>
-
-            <label for="apellidos">Apellidos:</label>
-            <input type="text" id="apellidos" name="apellidos">
-            <span class="error"><?php echo $apellidosErr; ?></span>
-            <br><br>
-
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad">
-            <span class="error"><?php echo $edadErr; ?></span>
-            <br><br>
-
-            <label for="grupo_sanguineo">Grupo sanguíneo:</label>
-            <?php echo generarSelectGS($grupos_sanguineos); ?>
-            <span class="error"><?php echo $grupoSanguineoErr; ?></span>
-            <br><br>
-
-            <label for="codigo_postal">Código Postal:</label>
-            <input type="text" id="codigo_postal" name="codigo_postal">
-            <span class="error"><?php echo $codigoPostalErr; ?></span>
-            <br><br>
-
-            <label for="telefono">Télefono:</label>
-            <input type="text" id="telefono" name="telefono">
-            <span class="error"><?php echo $telefonoErr; ?></span>
-            <br><br>
+            </div>
+            <div class="campo">
+                <label for="edad">Edad:</label>
+                <input type="number" id="edad" name="edad">
+                <span class="error"><?php echo $edadErr; ?></span>
+            </div>
+            <div class="campo">
+                <label for="grupo_sanguineo">Grupo sanguíneo:</label>
+                <?php echo generarSelectGS($grupos_sanguineos); ?>
+                <span class="error"><?php echo $grupoSanguineoErr; ?></span>
+            </div>
+            <div class="campo">
+                <label for="codigo_postal">Código Postal:</label>
+                <input type="text" id="codigo_postal" name="codigo_postal">
+                <span class="error"><?php echo $codigoPostalErr; ?></span>
+            </div>
+            <div class="campo">
+                <label for="telefono">Télefono:</label>
+                <input type="text" id="telefono" name="telefono">
+                <span class="error"><?php echo $telefonoErr; ?></span>
+            </div>
 
             <input type="submit" name="submit" value="Actualizar">
         </form>
@@ -111,3 +111,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
+
+<?php cerrarConexion(); ?>
