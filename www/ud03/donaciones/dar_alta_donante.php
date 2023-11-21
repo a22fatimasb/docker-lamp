@@ -5,7 +5,7 @@ establecerConexion();
 crearBaseDeDatos();
 seleccionarBaseDeDatos();
 crearTablaDonantes();
-$nombre = $apellidos = $edad = $grupo_sanguineo = $codigo_postal = $telefono = "";
+$nombre = $apellidos = $edad = $grupo_sanguineo = $codigo_postal = $telefono = $resultado = "";
 $nombreErr = $apellidosErr = $edadErr = $grupoSanguineoErr = $codigoPostalErr = $telefonoErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($grupoSanguineoErr) && empty($codigoPostalErr) && empty($telefonoErr)) {
 
 
-        registrarDonantes($nombre, $apellidos, $edad, $grupo_sanguineo, $codigo_postal, $telefono);
+        $resultado = registrarDonantes($nombre, $apellidos, $edad, $grupo_sanguineo, $codigo_postal, $telefono);
     }
 }
 ?>
@@ -64,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
+
     <br>
     <h1>Alta de donante</h1>
     <div>
@@ -72,18 +73,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" class="formDonacion" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="campo">
                 <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name">
+                <input type="text" id="name" name="name" value="<?php echo $nombre; ?>" >
                 <span class="error"><?php echo $nombreErr; ?></span>
             </div>
             <div class="campo">
                 <label for="apellidos">Apellidos:</label>
-                <input type="text" id="apellidos" name="apellidos">
+                <input type="text" id="apellidos" name="apellidos" value="<?php echo $apellidos; ?>">
                 <span class="error"><?php echo $apellidosErr; ?></span>
 
             </div>
             <div class="campo">
                 <label for="edad">Edad:</label>
-                <input type="number" id="edad" name="edad">
+                <input type="number" id="edad" name="edad" value="<?php echo $edad; ?>">
                 <span class="error"><?php echo $edadErr; ?></span>
             </div>
             <div class="campo">
@@ -93,19 +94,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="campo">
                 <label for="codigo_postal">Código Postal:</label>
-                <input type="text" id="codigo_postal" name="codigo_postal">
+                <input type="text" id="codigo_postal" name="codigo_postal" value="<?php echo $codigo_postal ?>">
                 <span class="error"><?php echo $codigoPostalErr; ?></span>
             </div>
             <div class="campo">
                 <label for="telefono">Télefono:</label>
-                <input type="text" id="telefono" name="telefono">
+                <input type="text" id="telefono" name="telefono" value="<?php echo $telefono ?>">
                 <span class="error"><?php echo $telefonoErr; ?></span>
             </div>
 
             <input type="submit" name="submit" value="Actualizar">
         </form>
     </div>
-
+    <div class="resultado">
+        <?php
+        if ($resultado) {
+            echo $resultado;
+        }
+        ?>
+    </div>
     <?php require_once('footer.php'); ?>
 
 </body>

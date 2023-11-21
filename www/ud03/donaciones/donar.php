@@ -17,7 +17,7 @@ if ($id !== null && esNumero($id)) {
         
 
         if (!validarCampoObligatorio($fechaDonacion)) {
-            $fechaDonacionErr = "Nombre inválido";
+            $fechaDonacionErr = "Fecha inválido";
         }
         if (empty($fechaDonacionErr)) {
 
