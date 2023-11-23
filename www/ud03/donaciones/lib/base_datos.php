@@ -177,13 +177,13 @@ function registrarDonacion($donanteId, $fechaDonacion)
 
         // Verificar que fechaDonacion sea anterior 
         if ($fechaDonacion > $today) {
-            echo "<br>Error! La fecha de donación no puede ser en el futuro.";
-            return;
+            return "<p>Error! La fecha de donación no puede ser en el futuro.</p>";
+           
         }
         // Verificar que la persona pueda donar
         if (!puedeDonar($donanteId, $fechaDonacion)) {
-            echo "<br>No ha pasado el tiempo suficiente desde la última donación";
-            return;
+            return "<p>No ha pasado el tiempo suficiente desde la última donación</p>";
+            
         }
 
         // Calcular la fecha de la próxima donación (4 meses después)
@@ -198,7 +198,7 @@ function registrarDonacion($donanteId, $fechaDonacion)
         $stmt->bindParam(':fechaProximaDonacion', $fechaProximaDonacion);
         $stmt->execute();
 
-        echo "<br>Donación registrada con éxito.";
+        return "<p>Donación registrada con éxito.</p>";
     } catch (PDOException $e) {
         throw new Exception("<br>Fallo en el registro de la donación: " . $e->getMessage());
     }
@@ -246,12 +246,12 @@ function eliminarDonante($donanteId)
         // Confirmar la transacción
         $conn->commit();
 
-        echo "<br>Donante y sus donaciones eliminados con éxito.";
+        return "<p>Donante y sus donaciones eliminados con éxito.</p>";
     } catch (PDOException $e) {
         // En caso de error, revertir la transacción
         $conn->rollBack();
 
-        throw new Exception("<br>Fallo en la eliminación del donante: " . $e->getMessage());
+        throw new Exception("<p>Fallo en la eliminación del donante: " . $e->getMessage() . "</p>");
     }
 }
 
@@ -303,7 +303,7 @@ function mostrarListaDonacionesDeDonante($donanteId)
 
             echo "</table>";
         } else {
-            echo "<br>Este donante no tiene donaciones registradas.";
+            return "<p>Este donante no tiene donaciones registradas.</p>";
         }
     } catch (PDOException $e) {
         throw new Exception("<br>Error: " . $e->getMessage());
@@ -363,7 +363,6 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
                     }
                 }
 
-
                 // Mostrar los donantes que cumplen con los criterios
                 if ($puedeDonar) {
 
@@ -373,11 +372,11 @@ function buscarDonantes($codigoPostal, $tipoSangre = null)
                     echo "<td>" . (isset($row['edad']) ? $row['edad'] : '') . "</td>";
                     echo "<td>" . $row['grupo_sanguineo'] . "</td>";
                     echo "</tr>";
-                } 
+                }
             }
             echo "</table>";
         } else {
-            echo "<br>No se encontraron donantes que cumplan con los criterios de búsqueda.";
+            return "<p>No se encontraron donantes que cumplan con los criterios de búsqueda.</p>";
         }
     } catch (PDOException $e) {
         throw new Exception("<br>Error: " . $e->getMessage());
@@ -397,7 +396,7 @@ function puedeDonar($donanteId, $fechaDonacion)
         $stmtUltimaDonacion->execute();
 
         $ultimaDonacion = $stmtUltimaDonacion->fetchAll(PDO::FETCH_ASSOC);
-        
+
         $ultimaDonacion = $ultimaDonacion[0]['ultimaDonacion'];
         if ($ultimaDonacion !== null) {
             // Verificar si han pasado 4 meses desde la última donación
@@ -418,4 +417,3 @@ function puedeDonar($donanteId, $fechaDonacion)
         throw new Exception("<br>Fallo en la consulta de datos: " . $e->getMessage());
     }
 }
-

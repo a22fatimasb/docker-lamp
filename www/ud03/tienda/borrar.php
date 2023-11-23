@@ -14,21 +14,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
 
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <?php
+    include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+    require_once('lib/base_datos.php');
+    establecerConexion();
+    seleccionarBaseDeDatos();
+    $resultado = "";
+    // Validar si es un número
+    if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
+        $id = $_GET["id"];
+        $resultado = eliminarUsuario($id);
+    }
+    ?>
+
+    <div class="resultado">
         <?php
-        include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
-        // Validar si es un número
-        if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
-            $id = $_GET["id"];
-            require_once 'lib/base_datos.php';
-            establecerConexion();
-            seleccionarBaseDeDatos();
-            eliminarUsuario($id);
-            cerrarConexion();
+        if ($resultado) {
+            echo $resultado;
         }
         ?>
-    </form>
+    </div>
     <?php require_once('footer.php'); ?>
 </body>
 
 </html>
+<?php cerrarConexion(); ?>

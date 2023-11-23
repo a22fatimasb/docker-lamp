@@ -18,15 +18,15 @@
         <p>Listado de donaciones</p>
         <?php
         include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+        require_once('lib/base_datos.php');
+        establecerConexion();
+        seleccionarBaseDeDatos();
         // Validar si es un número
         if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
             $id = $_GET["id"];
-            require_once 'lib/base_datos.php';
-            establecerConexion();
-            seleccionarBaseDeDatos();
             echo mostrarListaDonacionesDeDonante($id);
-            cerrarConexion();
         }
+        cerrarConexion();
         ?>
     </div>
 

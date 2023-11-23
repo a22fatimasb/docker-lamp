@@ -55,12 +55,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" class="formDonacion" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="campo">
                 <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name">
+                <input type="text" id="name" name="name" value="<?php echo $nombre ?>">
                 <span class="error"><?php echo $nombreErr; ?></span>
             </div>
             <div class="campo">
                 <label for="contrasena">Contraseña:</label>
-                <input type="password" id="contrasena" name="contrasena">
+                <input type="password" id="contrasena" name="contrasena" value="<?php echo $contrasena ?>">
                 <span class="error"><?php echo $contrasenaErr; ?></span>
             </div>
 

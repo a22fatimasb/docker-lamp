@@ -1,6 +1,6 @@
 <?php
 include("lib/utilidades.php");
-require_once ('lib/base_datos.php');
+require_once('lib/base_datos.php');
 establecerConexion();
 seleccionarBaseDeDatos();
 crearTablaHistorico();
@@ -8,21 +8,20 @@ crearTablaHistorico();
 $id = isset($_GET["id"]) ? $_GET["id"] : null;
 $fechaDonacion = isset($_POST["fechaDonacion"]) ? $_POST["fechaDonacion"] : null;
 
-$fechaDonacionErr = "";
+$fechaDonacionErr = $resultado = "";
 
 // Validar si es un número y si es un campo obligatorio
 if ($id !== null && esNumero($id)) {
     // Resto del código
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
+
 
         if (!validarCampoObligatorio($fechaDonacion)) {
             $fechaDonacionErr = "Fecha inválido";
         }
         if (empty($fechaDonacionErr)) {
 
-            registrarDonacion($id, $fechaDonacion);
-            
+            $resultado = registrarDonacion($id, $fechaDonacion);
         }
     }
 }
@@ -48,12 +47,19 @@ if ($id !== null && esNumero($id)) {
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . '?id=' . $id); ?>">
 
             <label for="fechaDonacion">Seleccione la fecha de la donación:</label>
-            <input type="date" id="fechaDonacion" name="fechaDonacion">
+            <input type="date" id="fechaDonacion" name="fechaDonacion" value="<?php echo $fechaDonacion?>">
             <span class="error"><?php echo isset($fechaDonacionErr) ? $fechaDonacionErr : ''; ?></span>
             <br><br>
 
             <input type="submit" value="Registrar Donación">
         </form>
+    </div>
+    <div class="resultado">
+        <?php
+        if ($resultado) {
+            echo $resultado;
+        }
+        ?>
     </div>
 
     <?php require_once('footer.php'); ?>

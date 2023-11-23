@@ -15,19 +15,26 @@
     <br>
     <h1>Borrar de donante</h1>
     <div>
-
         <?php
         include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
+        require_once('lib/base_datos.php');
+        establecerConexion();
+        seleccionarBaseDeDatos();
+        $resultado = "";
         // Validar si es un número
         if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
             $id = $_GET["id"];
-            require_once 'lib/base_datos.php';
-            establecerConexion();
-            seleccionarBaseDeDatos();
-            eliminarDonante($id);
-            cerrarConexion();
+            $resultado = eliminarDonante($id);
         }
+        cerrarConexion();
         ?></div>
+    <div class="resultado">
+        <?php
+        if ($resultado) {
+            echo $resultado;
+        }
+        ?>
+    </div>
 
     <?php require_once('footer.php'); ?>
 

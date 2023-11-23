@@ -60,7 +60,7 @@ function crearTablaUsuarios()
         provincia VARCHAR(50) NOT NULL
     )";
     if ($conexion->query($sql)) {
-        echo "<br>Tabla 'usuarios' creada correctamente";
+       // echo "<br>Tabla 'usuarios' creada correctamente";
     } else {
         echo "<br>Error creando la tabla 'usuarios': " . $conexion->error;
     }
@@ -79,7 +79,7 @@ function guardarUsuarios($nombre, $apellidos, $edad, $provincia)
     $stmt->bind_param("ssis", $nombre, $apellidos, $edad, $provincia);
     $stmt->execute();
 
-    echo "<br>Nuevos registros creados correctamente";
+    return "<p>Usuario registrado correctamente</p>";
 
     $stmt->close();
 }
@@ -111,7 +111,7 @@ function listarUsuarios()
             echo "</tr> ";
         }
     } else {
-        echo "<br>No hay resultados";
+        echo "<p>No hay resultados</p>";
     }
 }
 // Función para modificaciones de usuario.
@@ -124,9 +124,9 @@ function modificarUsuario($id, $nombre, $apellidos, $edad, $provincia)
     $stmt->bind_param("ssisi", $nombre, $apellidos, $edad, $provincia, $id);
 
     if ($stmt->execute()) {
-        echo "<br>Usuario modificado correctamente";
+        return "<p>Usuario modificado correctamente</p>";
     } else {
-        echo "<br>Error modificando el usuario: " . $conexion->error;
+        return "<br>Error modificando el usuario: " . $conexion->error;
     }
 
     $stmt->close();
@@ -140,9 +140,9 @@ function eliminarUsuario($id_usuario)
     $stmt->bind_param("i", $id_usuario);
 
     if ($stmt->execute()) {
-        echo "<br>Usuario eliminado correctamente";
+        return "<p>Usuario eliminado correctamente</p>";
     } else {
-        echo "<br>Error eliminando el usuario: " . $conexion->error;
+        return "<br>Error eliminando el usuario: " . $conexion->error;
     }
 
     $stmt->close();

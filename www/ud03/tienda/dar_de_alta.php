@@ -1,7 +1,11 @@
 <?php
 include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
 include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
-$nombre = $apellidos = $edad = $provincia = "";
+establecerConexion();
+crearBaseDeDatos();
+seleccionarBaseDeDatos();
+crearTablaUsuarios();
+$nombre = $apellidos = $edad = $provincia = $resultado = "";
 $nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,12 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     // Si todos los datos son válidos, guardar al nuevo usuario
     if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($provinciaErr)) {
-        establecerConexion();
-        crearBaseDeDatos();
-        seleccionarBaseDeDatos();
-        crearTablaUsuarios();
-        guardarUsuarios($nombre, $apellidos, $edad, $provincia);
-        cerrarConexion();
+
+        $resultado = guardarUsuarios($nombre, $apellidos, $edad, $provincia);
     }
 }
 ?>
@@ -59,27 +59,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="name">Nombre:</label>
         <input type="text" id="name" name="name">
         <span class="error"><?php echo $nombreErr; ?></span>
-        <br>
-        <br>
+
         <label for="apellidos">Apellidos:</label>
         <input type="text" id="apellidos" name="apellidos">
         <span class="error"><?php echo $apellidosErr; ?></span>
-        <br> <br>
+
         <label for="edad">Edad:</label>
         <input type="number" id="edad" name="edad">
         <span class="error"><?php echo $edadErr; ?></span>
-        <br> <br>
+
         <label for="provincia">Provincia:</label>
         <?php require_once 'lib/utilidades.php';
         echo generarSelectProvincias($provincias);
         ?>
         <span class="error"><?php echo $provinciaErr; ?></span>
-        <br> <br>
 
-        <br> <br>
         <input type="submit" name="submit" value="Actualizar">
     </form>
+    <div class="resultado">
+        <?php
+        if ($resultado) {
+            echo $resultado;
+        }
+        ?>
+    </div>
     <?php require_once('footer.php'); ?>
 </body>
 
 </html>
+<?php cerrarConexion(); ?>

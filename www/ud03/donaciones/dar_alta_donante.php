@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" class="formDonacion" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="campo">
                 <label for="name">Nombre:</label>
-                <input type="text" id="name" name="name" value="<?php echo $nombre; ?>" >
+                <input type="text" id="name" name="name" value="<?php echo $nombre; ?>">
                 <span class="error"><?php echo $nombreErr; ?></span>
             </div>
             <div class="campo">
