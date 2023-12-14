@@ -6,7 +6,7 @@ function isImpar($array){
     $arrayBooleanos = array();
 
     foreach($array as $valor){
-        if(is_numeric($valor)){
+        if(is_int($valor)){
             $numero = $valor;
            
             if($numero % 2 != 0){
@@ -30,9 +30,9 @@ function isPar($array){
     $arrayBooleanos = array();
 
     foreach($array as $valor){
-        if(is_numeric($valor)){
-            $numero = $valor;
+        if(is_int($valor)){
             
+             $numero = $valor;
             if($numero % 2 != 0){
                 array_push($arrayBooleanos, false);
     

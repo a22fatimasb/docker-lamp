@@ -6,7 +6,7 @@
 function imprimirTabla($coches){
 
 
-    echo "<table>";
+    echo "<table border='1'>";
     echo " <tr> ";
     echo "<td> Marca </td>";
     echo "<td> Stock </td>";

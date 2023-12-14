@@ -23,6 +23,7 @@ function ejecutar_consulta($conexion, $sql)
     }
 
     return $resultado;
+    
 }
 
 function crear_bd_tienda($conexion)
@@ -77,7 +78,7 @@ function editar_usuario($conexion, $id, $nombre, $apellidos, $edad, $provincia)
 function dar_alta_usuario($conexion, $nombre, $apellidos, $edad, $provincia)
 {
     $sql = $conexion->prepare("INSERT INTO usuarios (nombre,apellidos,edad,provincia) VALUES (?,?,?,?)");
-    $sql->bind_param("ssss", $nombre, $apellidos, $edad, $provincia);
+    $sql->bind_param("ssis", $nombre, $apellidos, $edad, $provincia);
     return $sql->execute() or die($conexion->error);
 }
 

@@ -1,11 +1,11 @@
 <?php
 
-  include("lib/base_datos.php");
-  //$conexion = get_conexion();
-  //crear_bd_tienda($conexion);
-  //seleccionar_bd_tienda($conexion);
-  //crear_tabla_usuarios($conexion);
-  //cerrar_conexion($conexion);
+  include_once("lib/base_datos.php");
+  $conexion = get_conexion();
+  crear_bd_tienda($conexion);
+  seleccionar_bd_tienda($conexion);
+  crear_tabla_usuarios($conexion);
+  cerrar_conexion($conexion);
   
 
 ?>

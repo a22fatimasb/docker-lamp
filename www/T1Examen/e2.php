@@ -2,10 +2,12 @@
 
   function imprimirRandom(){
 
-    $numeroRadom = rand(0, 30);
+    $numeroRadom = rand(1, 30);
     $letra = 'a';
     $contador = 0;
-    while($contador <= $numeroRadom){
+   
+    echo $numeroRadom;
+    while($contador < $numeroRadom){
       echo "<ul>";
       echo "<li>";
       for($e=0; $e<=$contador; $e++){
@@ -16,6 +18,7 @@
     
       $contador++;
     }
+  
 
   }
 
