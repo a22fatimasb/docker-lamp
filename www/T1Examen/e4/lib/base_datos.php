@@ -2,8 +2,8 @@
 
 function get_conexion()
 {
-    $conexion = new mysqli('db', 'root', 'test');
-  
+    $conexion = new mysqli('db', 'root', 'test', 'dbname');
+    
     if ($conexion->connect_errno != null) {
         die("Fallo en la conexión: " . $conexion->connect_error . "Con numero" . $conexion->connect_errno);
     }
@@ -11,7 +11,7 @@ function get_conexion()
 
 function seleccionar_bd_tienda($conexion)
 {
-    return $conexion->select_db("tinda");
+    return $conexion->select_db("tienda");
 }
 
 function ejecutar_consulta($conexion, $sql)

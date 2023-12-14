@@ -1,3 +1,26 @@
+<?php
+
+  function imprimirRandom(){
+
+    $numeroRadom = rand(0, 30);
+    $letra = 'a';
+    $contador = 0;
+    while($contador <= $numeroRadom){
+      echo "<ul>";
+      echo "<li>";
+      for($e=0; $e<=$contador; $e++){
+        echo $letra;
+      }
+      echo "</li>";
+      echo "</ul>";
+    
+      $contador++;
+    }
+
+  }
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +34,9 @@
   </head>
   <body>
     <div class="container">
+      <?php
+      imprimirRandom();
+      ?>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

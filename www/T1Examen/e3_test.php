@@ -1,3 +1,30 @@
+<?php
+  include("e3.php");
+    $coches = array( 
+      "coche1" => array( 
+          "marca" => "Volvo",
+          "stock" => 22, 
+          "ventas" => 18), 
+      "coche2" => array(
+          "marca" =>"BMW",
+          "stock" =>15, 
+          "ventas" => 13),
+      "coche3" =>array(
+          "marca" =>"Saab",
+          "stock" =>5,
+          "ventas" => 2),
+      "coche4" =>array(
+          "marca" =>"Land Rover",
+          "stock" =>17, 
+          "ventas" =>15)
+      );
+      $resultado = imprimirTabla($coches);
+      
+          
+    
+      ?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,6 +38,9 @@
   </head>
   <body>
     <div class="container">
+     
+     <?php $resultado
+     ?>
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

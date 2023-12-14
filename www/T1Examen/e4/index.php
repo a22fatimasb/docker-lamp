@@ -1,6 +1,12 @@
 <?php
 
-  require "lib/base_datos.php";
+  include("lib/base_datos.php");
+  //$conexion = get_conexion();
+  //crear_bd_tienda($conexion);
+  //seleccionar_bd_tienda($conexion);
+  //crear_tabla_usuarios($conexion);
+  //cerrar_conexion($conexion);
+  
 
 ?>
 <!doctype html>
@@ -20,13 +26,7 @@
             integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
             crossorigin="anonymous">
     </script>
-    <?php
-        $conexion = get_conexion();
-        crear_bd_tienda($conexion);
-        seleccionar_bd_tienda($conexion);
-        crear_tabla_usuarios($conexion);
-        cerrar_conexion($conexion);
-    ?>
+    
     <p>
         <a class="btn btn-primary" href="dar_de_alta.php" role="button"> Alta usuarios</a>
         <a class="btn btn-primary" href="listar.php" role="button"> Listar usuarios</a>
