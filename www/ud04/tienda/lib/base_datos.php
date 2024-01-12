@@ -46,6 +46,19 @@ function crear_tabla_usuarios($conexion)
     ejecutar_consulta($conexion, $sql);
 }
 
+function crear_tabla_productos($conexion)
+{
+    
+    $sql = "CREATE TABLE IF NOT EXISTS productos(
+        id INT(6) AUTO_INCREMENT PRIMARY KEY ,
+        nombre VARCHAR(50) NOT NULL , 
+        descripcion	VARCHAR(100) NOT NULL ,
+        precio FLOAT NOT NULL ,
+        unidades FLOAT NOT NULL ,
+        foto BLOB)";
+    ejecutar_consulta($conexion, $sql);
+}
+
 function listar_usuarios($conexion)
 {
     $sql = "SELECT id, nombre, apellidos,edad, provincia
