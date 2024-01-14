@@ -39,6 +39,7 @@ function crear_tabla_usuarios($conexion)
     $sql = "CREATE TABLE IF NOT EXISTS usuarios(
           id INT(6) AUTO_INCREMENT PRIMARY KEY , 
           nombre VARCHAR(50) NOT NULL , 
+          password VARCHAR(50) NOT NULL,
           apellidos VARCHAR(100) NOT NULL ,
           edad INT (3) NOT NULL ,
           provincia VARCHAR(50) NOT NULL)";
