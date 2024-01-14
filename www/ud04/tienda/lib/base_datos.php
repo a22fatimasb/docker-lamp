@@ -3,11 +3,11 @@
 function get_conexion()
 {
     $conexion = new mysqli('db', 'root', 'test');
-  
+
     if ($conexion->connect_errno != null) {
         die("Fallo en la conexión: " . $conexion->connect_error . "Con numero" . $conexion->connect_errno);
     }
-    
+
     return $conexion;
 }
 
@@ -48,14 +48,14 @@ function crear_tabla_usuarios($conexion)
 
 function crear_tabla_productos($conexion)
 {
-    
+
     $sql = "CREATE TABLE IF NOT EXISTS productos(
         id INT(6) AUTO_INCREMENT PRIMARY KEY ,
         nombre VARCHAR(50) NOT NULL , 
         descripcion	VARCHAR(100) NOT NULL ,
         precio FLOAT NOT NULL ,
         unidades FLOAT NOT NULL ,
-        foto BLOB)";
+        foto BLOB NOT NULL)";
     ejecutar_consulta($conexion, $sql);
 }
 
@@ -67,7 +67,7 @@ function listar_usuarios($conexion)
     $resultado = ejecutar_consulta($conexion, $sql);
     return $resultado;
 }
- 
+
 function get_usuario($conexion, $id)
 {
     $sql = "SELECT id, nombre, apellidos,edad, provincia
@@ -93,6 +93,16 @@ function dar_alta_usuario($conexion, $nombre, $apellidos, $edad, $provincia)
 {
     $sql = $conexion->prepare("INSERT INTO usuarios (nombre,apellidos,edad,provincia) VALUES (?,?,?,?)");
     $sql->bind_param("ssss", $nombre, $apellidos, $edad, $provincia);
+    return $sql->execute() or die($conexion->error);
+}
+
+function dar_alta_producto($conexion, $nombre, $descripcion, $precio, $unidades, $foto)
+{
+
+
+    $sql = $conexion->prepare("INSERT INTO productos (nombre, descripcion, precio, unidades, foto) VALUES (?, ?, ?, ?, ?)");
+    $sql->bind_param("ssdds", $nombre, $descripcion, $precio, $unidades, $foto);
+
     return $sql->execute() or die($conexion->error);
 }
 
