@@ -54,8 +54,17 @@ function crear_tabla_productos($conexion)
         nombre VARCHAR(50) NOT NULL , 
         descripcion	VARCHAR(100) NOT NULL ,
         precio FLOAT NOT NULL ,
-        unidades FLOAT NOT NULL ,
-        foto BLOB NOT NULL)";
+        unidades FLOAT NOT NULL)";
+    ejecutar_consulta($conexion, $sql);
+}
+
+function crear_tabla_imagenes_producto($conexion){
+    $sql = "CREATE TABLE IF NOT EXISTS imagenes_producto(
+        id INT(6) AUTO_INCREMENT PRIMARY KEY,
+        id_producto INT(6) NOT NULL,
+        imagen BLOB NOT NULL,
+        FOREIGN KEY (id_producto) REFERENCES productos(id)
+    )";
     ejecutar_consulta($conexion, $sql);
 }
 
@@ -96,14 +105,23 @@ function dar_alta_usuario($conexion, $nombre, $apellidos, $edad, $provincia)
     return $sql->execute() or die($conexion->error);
 }
 
-function dar_alta_producto($conexion, $nombre, $descripcion, $precio, $unidades, $foto)
+function dar_alta_producto($conexion, $nombre, $descripcion, $precio, $unidades, $imagenes)
 {
+    // Insertar datos del producto en la tabla productos
+    $sql = $conexion->prepare("INSERT INTO productos (nombre, descripcion, precio, unidades) VALUES (?, ?, ?, ?)");
+    $sql->bind_param("ssdd", $nombre, $descripcion, $precio, $unidades);
+    $sql->execute() or die($conexion->error);
 
+    // Obtener el ID del producto 
+    $producto_id = $sql->insert_id;
 
-    $sql = $conexion->prepare("INSERT INTO productos (nombre, descripcion, precio, unidades, foto) VALUES (?, ?, ?, ?, ?)");
-    $sql->bind_param("ssdds", $nombre, $descripcion, $precio, $unidades, $foto);
-
-    return $sql->execute() or die($conexion->error);
+    // Insertar las imágenes en la tabla imagenes_producto
+    foreach ($imagenes as $imagen) {
+        $sql = $conexion->prepare("INSERT INTO imagenes_producto (id_producto, imagen) VALUES (?, ?)");
+        $sql->bind_param("ib", $producto_id, $imagen);
+        $sql->send_long_data(1, $imagen);
+        $sql->execute() or die($conexion->error);
+    }
 }
 
 function borrar_usuario($conexion, $id)

@@ -26,6 +26,7 @@
         seleccionar_bd_tienda($conexion);
         crear_tabla_usuarios($conexion);
         crear_tabla_productos($conexion);
+        crear_tabla_imagenes_producto($conexion);
         cerrar_conexion($conexion);
     ?>
     <p>
