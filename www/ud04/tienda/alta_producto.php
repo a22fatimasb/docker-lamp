@@ -18,17 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
         // Recorremos las imágenes
         foreach ($fotos['name'] as $key => $nombreImagen) {
-            // Comprobamos la extensión del fichero
-            if (!compruebaExtension($nombreImagen)) {
-                $mensajes .= "Sólo se permiten imágenes con extensión PNG, JPG, JPEG o GIF.<br>";
-                continue;
-            }
             // Comprobamos el tamaño del fichero
             if (!compruebaTamanho($fotos['size'][$key])) {
                 $mensajes .= "La imagen " . htmlspecialchars($nombreImagen) . " no debe superar 50MB de tamaño.<br>";
                 continue;
             }
         }
+        
         if (empty($mensajes)) {
             $conexion = get_conexion();
             seleccionar_bd_tienda($conexion);
@@ -37,7 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             $rutasImagenes = [];
 
             foreach ($fotos['name'] as $key => $nombreImagen) {
-                $directorio = "uploads/" . basename($nombreImagen);
+                // Obtener el directorio según el tipo de archivo
+                $directorio = obtenerExtensionArchivo($nombreImagen). basename($nombreImagen);
 
                 if (move_uploaded_file($fotos['tmp_name'][$key], $directorio)) {
                     // Añadir la ruta al array
@@ -73,12 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <br><br>
     Unidades: <input type="number" name="unidades" required>
     <br><br>
-    Fotografías: <input type="file" name="imagenes[]" id="foto" multiple accept="image/*" required>
+    Fotografías: <input type="file" name="imagenes[]" id="foto" multiple required>
     <br><br>
 
     <input type="submit" name="submit" value="Guardar producto">
 </form>
-<?= $mensajes; ?>
+
 
 <footer>
     <p>

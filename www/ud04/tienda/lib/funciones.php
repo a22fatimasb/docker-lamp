@@ -16,3 +16,28 @@ function compruebaExistenciaAnterior($nombreArchivo)
 {
     return file_exists(($nombreArchivo));
 }
+
+function obtenerExtensionArchivo($nombreArchivo)
+{
+    // Directorio según el tipo de archivo
+    $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+    $directorio = "uploads/";
+
+    switch ($extension) {
+        case 'txt':
+            $directorio .= 'texto/';
+            break;
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+            $directorio .= 'imagen/';
+            break;
+        case 'pdf':
+            $directorio .= 'pdf/';
+            break;
+        default:
+            $directorio .= 'otros/';
+            break;
+    }
+    return $directorio;
+}
