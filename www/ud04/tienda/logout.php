@@ -4,4 +4,5 @@
     $_SESSION = array();
     setcookie('usuario', 123, time()-1000);
     header("Location: index.php");
+    
 ?>

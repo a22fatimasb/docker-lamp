@@ -146,7 +146,9 @@ function verificar_existencia_usuario($conexion, $usuario)
 
     $resultado = $sql->get_result();
     $fila = $resultado->fetch_assoc();
-
+    if($fila == null){
+        return false;
+    }
     return ($fila['nombre'] == $usuario);
 }
 

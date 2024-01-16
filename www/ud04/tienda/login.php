@@ -4,31 +4,29 @@ include "lib/base_datos.php";
 $conexion = get_conexion();
 seleccionar_bd_tienda($conexion);
 
-function comporbar_usuario($conexion, $nombre, $pass)
-{
-    if (verificar_existencia_usuario($conexion, $nombre)) {
-        $contrasenhaBD = recuperar_contrasenha_usuario($conexion, $nombre);
-        // Verifica si la contraseña ingresada coincide con la almacenada en la base de datos
-        if (password_verify($pass, $contrasenhaBD)) {
-            $_SESSION["usuario"] = $nombre; 
-            return $nombre; 
-        } else {
-            echo "Error de usuario";
-        }
-    }
-    return null; 
-}
+$usuarioErr = $passErr = "";
 
 // Comprobar si se reciben los datos
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario = $_POST["usuario"];
     $pass = $_POST["pass"];
-    $user = comporbar_usuario($conexion, $usuario, $pass);
-    if (!$user) {
-        $error = "Nombre de usuario o contraseña incorrectos.";
+
+    if (verificar_existencia_usuario($conexion, $usuario)) {
+        $contrasenhaBD = recuperar_contrasenha_usuario($conexion, $usuario);
+        // Verifica si la contraseña ingresada coincide con la almacenada en la base de datos
+        if (password_verify($pass, $contrasenhaBD)) {
+            $_SESSION["usuario"] = $usuario;
+        } else {
+            $passErr = "La contraseña no es correcta. </br>";
+        }
     } else {
+        $usuarioErr = "El usuario ingresado no es correcto. </br>";
+    }
+
+    if (empty($passErr) && empty($usuarioErr)) {
         // Redirigimos a index.php o a la página principal después de la autenticación exitosa
-        $_SESSION["autenticado"]=true;
+        $_SESSION["autenticado"] = true;
+        $_SESSION["name"] = $usuario;
         header('Location: index.php');
         exit();
     }
@@ -49,9 +47,13 @@ cerrar_conexion($conexion);
     <h1>Login</h1>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
         Usuario: <input name="usuario" id="usuario" type="text" required>
-        Contraseña:<input name="pass" id="pass" type="password" required>
+        <span style="color: red;"><?php echo $usuarioErr; ?></span><br>
+        Contraseña: <input name="pass" id="pass" type="password" required>
+        <span style="color: red;"><?php echo $passErr; ?></span><br>
         <input type="submit" value="Iniciar sesión">
     </form>
+
+
     <footer>
         <p>
             <a href='index.php'>Página de inicio</a>

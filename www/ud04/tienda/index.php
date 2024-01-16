@@ -3,7 +3,7 @@ session_start();
 
 // Verificar si el usuario está autenticado
 if (isset($_SESSION["autenticado"]) && $_SESSION["autenticado"] === true) {
-    echo "¡Bienvenido! Has iniciado sesión correctamente.";
+    echo "¡Bienvenido " . $_SESSION['name'] . "! Has iniciado sesión correctamente.";
 } else {
     echo "No estás autenticado.";
 }

@@ -40,7 +40,10 @@ require "lib/utilidades.php";
                 dar_alta_usuario($conexion, $nombre, $apellidos, $edad, $provincia, $contrasenha_hasheada);
                 
                 $mensajes = "Usuario dado de alta correctamente";
+
+                
                 cerrar_conexion($conexion);
+
                 
             } else {
                 $mensajes = "Las contraseñas no coinciden. Por favor, inténtelo de nuevo.</br>";
