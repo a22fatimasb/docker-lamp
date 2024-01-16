@@ -25,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pass = $_POST["pass"];
     $user = comporbar_usuario($conexion, $usuario, $pass);
     if (!$user) {
-        $error = true;
-        echo "Error de autenticación";
+        $error = "Nombre de usuario o contraseña incorrectos.";
     } else {
         // Redirigimos a index.php o a la página principal después de la autenticación exitosa
+        $_SESSION["autenticado"]=true;
         header('Location: index.php');
         exit();
     }
