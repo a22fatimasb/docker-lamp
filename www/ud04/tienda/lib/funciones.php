@@ -20,7 +20,7 @@ function compruebaExistenciaAnterior($nombreArchivo)
 function obtenerExtensionArchivo($nombreArchivo)
 {
     // Directorio según el tipo de archivo
-    $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+    $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
     $directorio = "uploads/";
 
     switch ($extension) {
