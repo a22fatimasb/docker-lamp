@@ -11,10 +11,34 @@ Genera los objetos que nos permitan identificar un buen funcionamiento de la apl
 */
 
 include "Persona.php";
+
 class Usuario extends Persona
 {
-   
-    public function accion(){
+    public function __construct($nombre, $apellidos)
+    {
+        parent::__construct($nombre, $apellidos);
+    }
+    public function get_nombre()
+    {
+        return $this->nombre;
+    }
+
+    public function set_nombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function get_apellidos()
+    {
+        return $this->apellidos;
+    }
+
+    public function set_apellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
+    }
+    public function accion()
+    {
         echo "Usuario: " . $this->nombre . " " . $this->apellidos . "</br>";
     }
 }

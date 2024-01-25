@@ -21,29 +21,13 @@ abstract class Persona
         self::$id++;
     }
 
-    public function get_id()
-    {
-        return $this->id;
-    }
-    public function get_nombre()
-    {
-        return $this->nombre;
-    }
-
-    public function set_nombre($nombre)
-    {
-        $this->nombre = $nombre;
-    }
-
-    public function get_apellidos()
-    {
-        return $this->apellidos;
-    }
-
-    public function set_apellidos($apellidos)
-    {
-        $this->apellidos = $apellidos;
-    }
-
+    abstract public function get_nombre();
+    abstract public function set_nombre($nombre);
+    abstract public function get_apellidos();
+    abstract public function set_apellidos($apellidos);
     abstract public function accion();
+    public static function getId()
+    {
+        return self::$id;
+    }
 }
