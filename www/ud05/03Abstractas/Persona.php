@@ -14,17 +14,36 @@ abstract class Persona
     protected $nombre;
     protected $apellidos;
 
-    abstract public function __construct($nombre, $apellidos);
+    public function __construct($nombre, $apellidos)
+    {
+        $this->nombre = $nombre;
+        $this->apellidos = $apellidos;
+        self::$id++;
+    }
 
-    abstract public function get_id();
+    public function get_id()
+    {
+        return $this->id;
+    }
+    public function get_nombre()
+    {
+        return $this->nombre;
+    }
 
-    abstract public function get_nombre();
+    public function set_nombre($nombre)
+    {
+        $this->nombre = $nombre;
+    }
 
-    abstract public function set_nombre($nombre);
+    public function get_apellidos()
+    {
+        return $this->apellidos;
+    }
 
-    abstract public function get_apellidos();
-
-    abstract public function set_apellidos($apellidos);
+    public function set_apellidos($apellidos)
+    {
+        $this->apellidos = $apellidos;
+    }
 
     abstract public function accion();
 }
