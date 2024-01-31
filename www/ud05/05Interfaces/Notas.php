@@ -2,7 +2,7 @@
 
 include "CalculosCentroEstudios.php";
 
-// Crea una clase Notas en un fichero independiente:
+// Crea una clase Notas en un fichero independiente
 
 abstract class Notas implements CalculosCentroEstudios
 {

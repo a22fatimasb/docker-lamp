@@ -38,8 +38,8 @@ trait CalculosCentroEstudios
                 $sumatorio += $nota;
             }
             $media = $sumatorio / $tamanho;
-            // Devuelvo la nota media redondeada
-            return round($media);
+            // Devuelvo la nota media redondeada a dos decimales
+            return round($media, 2);
         }
         return 0;
     }

@@ -9,7 +9,7 @@ class NotasDaw extends Notas implements CalculosCentroEstudios
         parent::__construct($notas);
     }
 
-
+    // Función que pasa el array a string y lo devuelve. 
     public function toString()
     {
         $listaDeNotas = implode(', ', $this->get_notas());
@@ -49,8 +49,8 @@ class NotasDaw extends Notas implements CalculosCentroEstudios
                 $sumatorio += $nota;
             }
             $media = $sumatorio / $tamanho;
-            //Devuelvo la nota media redondeada
-            return round($media);
+            //Devuelvo la nota media redondeada a dos decimales
+            return round($media, 2);;
         }
         return 0;
     }
