@@ -19,7 +19,7 @@ $contactos = array($contacto1, $contacto2, $contacto3);
 
 
 // Acceder y mostrar la información de cada contacto con los métodos get()
-echo "</br>Utilizando los métodos get()";
+echo "</br>Utilizando los métodos get()</br>";
 foreach ($contactos as $contacto) {
     
     echo "</br>Información del contacto:";
@@ -28,8 +28,10 @@ foreach ($contactos as $contacto) {
     echo "</br>Número de teléfono: " . $contacto->get_num_telefono();
 }
 
-echo "</br>Utilizando el método muestraInformacion()";
+echo "</br></br></br>Utilizando el método muestraInformacion()</br>";
 // Acceder y mostrar la información de cada contacto con el método muestraInformacion()
 foreach ($contactos as $contacto) {
     $contacto->muestraInformacion();
 }
+
+echo "</br>";

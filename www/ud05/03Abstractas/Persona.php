@@ -11,17 +11,18 @@ Tiene un método abstracto llamado accion().*/
 abstract class Persona
 {
     private $id;
-    private $contador = 0;
+    private static $contador = 0;
     protected $nombre;
     protected $apellidos;
 
 
     public function __construct($nombre, $apellidos)
     {
+        self::$contador++;
         $this->nombre = $nombre;
         $this->apellidos = $apellidos;
-        $this->id = $this->contador;
-        self::$contador++;
+        $this->id = self::$contador;
+        
     }
 
     abstract public function get_nombre();
@@ -31,6 +32,6 @@ abstract class Persona
     abstract public function accion();
     public function getId()
     {
-        return self::$id;
+        return $this->id;
     }
 }
