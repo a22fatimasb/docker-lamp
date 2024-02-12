@@ -2,7 +2,7 @@
 class Documento
 {
 
-    private $formato;
+    protected $formato;
     private $id;
     private $ano_publicacion;
 
@@ -11,7 +11,7 @@ class Documento
     // Método constructor
     public function __construct($formato, $ano_publicacion)
     {
-        $this->formato = self::setFormato($formato);
+        $this->formato = $formato;
         $this->ano_publicacion = $ano_publicacion;
         $this->id = self::$contadorDocumentos++;
     }
@@ -22,21 +22,14 @@ class Documento
         echo "Documento destruido <br/>";
     }
 
-    public function getFormato()
+    public function mostrarInfo()
     {
-        return $this->formato;
-    }
-    public function setFormato($formato)
-    {
-        $formatoIntroducido = strtolower($formato);
-        $formatosPermitidos = array("libro", "revista", "dvd");
-        foreach ($formatosPermitidos as $tipoFormato) {
-            if ($formatoIntroducido == $tipoFormato) {
-                $this->formato = $formatoIntroducido;
-            }
-        }
+        echo "Información del documento con id: $this->id.<br/>";
+        echo "Formato: $this->formato.<br/>";
+        echo "Año publicación: $this->ano_publicacion.<br/>";
     }
 
+    
     public function getId()
     {
         return $this->id;
@@ -47,7 +40,12 @@ class Documento
         return $this->ano_publicacion;
     }
 
-    public function modificarAnoPublicacion($ano){
+    public function modificarAnoPublicacion($ano)
+    {
         $this->ano_publicacion = $ano;
+    }
+
+    public function getFormato(){
+        return $this->formato;
     }
 }

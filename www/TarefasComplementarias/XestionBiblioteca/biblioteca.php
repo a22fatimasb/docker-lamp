@@ -1,5 +1,6 @@
 <?php
-include "documento.php";
+
+//include "documento.php";
 
 class Biblioteca
 {
@@ -27,9 +28,9 @@ class Biblioteca
     }
 
     // Método para dar de alta un documento
-    public function darALta($documento)
+    public function darAlta($documento)
     {
-        array_push($this->documentos, $documento);
+        $this->documentos[] = $documento;
     }
 
     // Método que lista los documentos de una biblioteca
@@ -37,7 +38,7 @@ class Biblioteca
     {
         foreach ($this->documentos as $documento) {
             if ($formato == '*' || ($documento->getFormato() == $formato)) {
-                echo $documento->mostrarInformacion();
+                echo $documento->mostrarInfo();
                 echo "<br>";
             }
         }
@@ -54,7 +55,7 @@ class Biblioteca
     }
 
     // Método para mostrar información de la biblioteca
-    public function mostrarInformacion()
+    public function mostrarInfo()
     {
         echo "Información de la Biblioteca: <br />";
         echo "Nombre: " . self::get_nome() . ".<br />";
@@ -92,8 +93,8 @@ class Biblioteca
         return $this->num_tel;
     }
 
-    function get_num_bibliotecas()
+    public static function get_num_bibliotecas()
     {
-        return  $this->num_bibliotecas;
+        return  self::$num_bibliotecas;
     }
 }
