@@ -74,6 +74,15 @@ function crear_tabla_historico($conexion)
     ejecutar_consulta($conexion, $sql);
 }
 
+function consulta_donaciones_entre_fechas($conexion, $fechaInicio, $fechaFin){
+    $consulta = $conexion->prepare("SELECT idDonante, fechaDonacion FROM historico WHERE fechaDonacion >= :fechaInicio AND fechaDonacion <= :fechaFin");
+    $consulta->bindParam(":fechaInicio", $fechaInicio);
+    $consulta->bindParam(":fechaFin", $fechaFin);
+    return $consulta->execute();
+    
+}
+
+
 function dar_alta_donante($conexion, $nombre, $apellidos, $edad, $grupoSanguineo, $codPostal, $movil)
 {
     $consulta = $conexion -> prepare("INSERT INTO donantes (nombre,apellidos,edad,grupoSanguineo,codPostal,telefonoMovil) VALUES (:nombre,:apellidos,:edad,:grupo,:codigoP,:movil)");
