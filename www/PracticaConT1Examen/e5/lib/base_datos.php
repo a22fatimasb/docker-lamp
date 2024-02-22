@@ -108,6 +108,12 @@ function dar_alta_administrador($conexion, $nombre, $contrasinal)
     return $consulta->execute();
 }
 
+function get_administradores($conexion){
+    $consulta = $conexion->prepare("SELECT * FROM administradores");
+    $consulta->execute();
+    return $consulta;
+}
+
 function dar_alta_donacion($conexion, $idDonante, $fechaDonacion)
 {
     $ultima_donacion = get_ultima_donacion($conexion, $idDonante);
@@ -129,6 +135,16 @@ function dar_alta_donacion($conexion, $idDonante, $fechaDonacion)
 function eliminar_donante($conexion, $idDonante)
 {
     $consulta = $conexion->prepare("DELETE d FROM donantes d LEFT JOIN historico h ON d.id = h.idDonante where d.id =$idDonante");
+    return $consulta->execute();
+}
+function eliminar_administrador($conexion, $nombreAdministrador){
+    // Preparamos la consulta con un marcador de posición
+    $consulta = $conexion->prepare("DELETE FROM administradores WHERE nombre = :nombre");
+
+    // Vinculamos el parámetro
+    $consulta->bindParam(':nombre', $nombreAdministrador);
+
+    // Ejecutamos la consulta
     return $consulta->execute();
 }
 function get_donaciones($conexion, $idDonante)
