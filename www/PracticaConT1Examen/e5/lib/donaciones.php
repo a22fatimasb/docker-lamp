@@ -18,3 +18,17 @@ function imprimir_donaciones($donaciones)
         }
     }
 }
+
+function imprimir_lista_donaciones($donaciones){
+    if ($donaciones) {
+        while ($donacion = $donaciones->fetch()) {
+            $fechaDonacion = date_create($donacion['fechaDonacion']);
+            $fechaDonacionFormateada = date_format($fechaDonacion, 'd/m/Y');
+           
+            echo "<tr>";
+            echo "<td>" . $donacion['idDonante'] . "</td>";
+            echo "<td>" . $fechaDonacionFormateada . "</td>"; // Corrección aquí
+            echo "</tr>";
+        }
+    }
+}

@@ -78,7 +78,8 @@ function consulta_donaciones_entre_fechas($conexion, $fechaInicio, $fechaFin){
     $consulta = $conexion->prepare("SELECT idDonante, fechaDonacion FROM historico WHERE fechaDonacion >= :fechaInicio AND fechaDonacion <= :fechaFin");
     $consulta->bindParam(":fechaInicio", $fechaInicio);
     $consulta->bindParam(":fechaFin", $fechaFin);
-    return $consulta->execute();
+    $consulta->execute();
+    return $consulta;
     
 }
 

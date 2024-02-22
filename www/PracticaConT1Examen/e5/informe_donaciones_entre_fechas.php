@@ -2,6 +2,7 @@
 
 include "lib/base_datos.php";
 include "lib/utilidades.php";
+include "lib/donaciones.php";
 
 $conexion = get_conexion();
 seleccionar_bd_donacion($conexion);
@@ -9,14 +10,16 @@ seleccionar_bd_donacion($conexion);
 $mensajes = array();
 $fecha_inicio = "";
 $fecha_fin = "";
+$donaciones = "";
 
 if (isset($_POST['submit'])) {
+    
     if (!empty($_POST['fecha_inicio']) && !empty($_POST['fecha_fin'])) {
         $fecha_inicio = $_POST['fecha_inicio'];
         $fecha_fin = $_POST['fecha_fin'];
         if ($fecha_inicio <= $fecha_fin) {
 
-            $resultado_consulta = consulta_donaciones_entre_fechas($conexion, $fecha_inicio, $fecha_fin);
+            $donaciones = consulta_donaciones_entre_fechas($conexion, $fecha_inicio, $fecha_fin);
         } else {
             $mensajes[] = array("error", "La fecha de inicio no puede ser posterior a la fecha de fin.");
         }
@@ -40,7 +43,6 @@ if (isset($_POST['submit'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous">
     </script>
 
-    <h1>Buscar donantes</h1>
 
     <?= get_mensajes_html_format($mensajes); ?>
 
@@ -52,30 +54,25 @@ if (isset($_POST['submit'])) {
             <label for="fecha_fin">Fecha de fin:</label>
             <input type="date" id="fecha_fin" name="fecha_fin"><br><br>
 
-            <input type="submit" value="Generar Informe">
+            <input type="submit" name="submit" value="Generar Informe">
         </form>
     </div>
-    <h1>Listado donaciones</h1>
-  <table>
-    <tr>
-      <th>ID donante</th>
-      <th>Fecha donacion</th>
-    </tr>
-<?php
-while ($fila = $resultado_consulta->fetch()) {
-    echo "<tr>";
-    echo "<td>" . $fila['idDonante'] . "</td>";
-    echo "<td>" . $fila['fechaDonacion'] . "</td>";
-    echo "</tr>";
-}
-?>
+    <h2>Listado donaciones</h2>
+    <table>
+        <tr>
+            <th>ID donante</th>
+            <th>Fecha donacion</th>
+        </tr>
+        <?php
+         imprimir_lista_donaciones($donaciones);
+        ?>
+    </table>
 
+        <footer>
+            <p><a href='index.php'>Página de inicio</a></p>
+        </footer>
 
-    <footer>
-        <p><a href='index.php'>Página de inicio</a></p>
-    </footer>
-
-    <?php cerrar_conexion($conexion); ?>
+        <?php cerrar_conexion($conexion); ?>
 
 </body>
 
