@@ -1,6 +1,6 @@
 <?php
 
-  require "lib/base_datos.php";
+  include "lib/base_datos.php";
 
 ?>
 <!doctype html>

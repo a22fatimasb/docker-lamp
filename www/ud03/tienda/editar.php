@@ -2,8 +2,8 @@
 include("lib/utilidades.php");
 include("lib/base_datos.php");
 
-establecerConexion();
-seleccionarBaseDeDatos();
+$conexion = establecerConexion();
+seleccionarBaseDeDatos($conexion);
 
 $nombre = $apellidos = $edad = $provincia = $resultado = "";
 $nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
@@ -11,7 +11,7 @@ $nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
 if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
     $id = $_GET["id"];
     //Recuperamos la información inicial del usuario
-    $datosUsuario = consultarDatosUsuario($id);
+    $datosUsuario = consultarDatosUsuario($conexion,$id);
     $nombre = $datosUsuario['nombre'];
     $apellidos = $datosUsuario['apellidos'];
     $edad = $datosUsuario['edad'];
@@ -43,7 +43,7 @@ if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
         // Si todos los datos son válidos, realizar la actualización
         if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($provinciaErr)) {
 
-            $resultado = modificarUsuario($id, $nombre, $apellidos, $edad, $provincia);
+            $resultado = modificarUsuario($conexion, $id, $nombre, $apellidos, $edad, $provincia);
         }
     }
 }
@@ -97,4 +97,4 @@ if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
     <?php require_once('footer.php'); ?>
 </body>
 
-</html><?php cerrarConexion(); ?>
+</html><?php  cerrarConexion($conexion); ?>

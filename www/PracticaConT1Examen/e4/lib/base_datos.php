@@ -2,20 +2,27 @@
 
 function get_conexion()
 {
-    $conexion = new mysqli('db', 'root', 'test');
-  
-    if ($conexion->connect_errno != null) {
-        die("Fallo en la conexión: " . $conexion->connect_error . "Con numero" . $conexion->connect_errno);
+    $conexion = new mysqli('db', 'root', 'test', 'dbname');
+    //$conexion = new mysqli('db', 'root', 'test'); Faltaba dbname
+
+    $error = $conexion->connect_errno;
+    if ($error != null) {
+        die("Fallo en la conexión: " . $conexion->connect_error . "Con numero" . $error);
     }
+    // if ($conexion->connect_errno != null) {
+    //     die("Fallo en la conexión: " . $conexion->connect_error . "Con numero" . $conexion->connect_errno);
+    // }
+    return $conexion;
 }
 
 function seleccionar_bd_tienda($conexion)
 {
-    return $conexion->select_db("tinda");
+    return $conexion->select_db("tienda"); // estaba mal escrito tienda
 }
 
 function ejecutar_consulta($conexion, $sql)
 {
+   
     $resultado = $conexion->query($sql);
 
     if ($resultado == false) {
@@ -46,13 +53,12 @@ function crear_tabla_usuarios($conexion)
 
 function listar_usuarios($conexion)
 {
-    $sql = "SELECT id, nombre, apellidos,edad, provincia
-            FROM usuarios";
-
-    $resultado = ejecutar_consulta($conexion, $sql);
-    return $resultado;
+    $sql = "SELECT * FROM usuarios";
+    $consulta= $conexion->prepare($sql);
+    $consulta->execute();
+    return $consulta;
 }
- 
+
 function get_usuario($conexion, $id)
 {
     $sql = "SELECT id, nombre, apellidos,edad, provincia
@@ -77,7 +83,7 @@ function editar_usuario($conexion, $id, $nombre, $apellidos, $edad, $provincia)
 function dar_alta_usuario($conexion, $nombre, $apellidos, $edad, $provincia)
 {
     $sql = $conexion->prepare("INSERT INTO usuarios (nombre,apellidos,edad,provincia) VALUES (?,?,?,?)");
-    $sql->bind_param("ssss", $nombre, $apellidos, $edad, $provincia);
+    $sql->bind_param("ssis", $nombre, $apellidos, $edad, $provincia); //idade é un number e hai que poñer i
     return $sql->execute() or die($conexion->error);
 }
 

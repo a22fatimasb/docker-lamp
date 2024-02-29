@@ -44,7 +44,7 @@ seleccionar_bd_tienda($conexion);
 $resultados = listar_usuarios($conexion);
 
 if (!is_bool($resultados) && $resultados->num_rows > 0) {
-    while ($row = $resultados->fetch_asoc()) {
+    while ($row = $resultados->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row['nombre'] . "</td> ";
         echo "<td>" . $row['apellidos'] . "</td> ";
@@ -56,10 +56,12 @@ if (!is_bool($resultados) && $resultados->num_rows > 0) {
     }
 }
 
+
 cerrar_conexion($conexion);
 
 ?>
     </tbody>
+  </table>
     <footer>
         <p>
             <a href='index.php'>Página de inicio</a>

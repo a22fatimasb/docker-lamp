@@ -17,13 +17,13 @@
     <?php
     include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
     require_once('lib/base_datos.php');
-    establecerConexion();
-    seleccionarBaseDeDatos();
+    $conexion = establecerConexion();
+    seleccionarBaseDeDatos($conexion);
     $resultado = "";
     // Validar si es un número
     if (esNumero($_GET["id"]) && validarCampoObligatorio($_GET["id"])) {
         $id = $_GET["id"];
-        $resultado = eliminarUsuario($id);
+        $resultado = eliminarUsuario($conexion,$id);
     }
     ?>
 
@@ -38,4 +38,4 @@
 </body>
 
 </html>
-<?php cerrarConexion(); ?>
+<?php cerrarConexion($conexion); ?>

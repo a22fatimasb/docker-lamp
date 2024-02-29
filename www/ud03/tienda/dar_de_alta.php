@@ -1,12 +1,11 @@
 <?php
 include("lib/utilidades.php"); // Incluye las definiciones de funciones de validación
 include("lib/base_datos.php"); // Incluye las funciones concernientes a la base de datos
-establecerConexion();
-crearBaseDeDatos();
-seleccionarBaseDeDatos();
-crearTablaUsuarios();
-$nombre = $apellidos = $edad = $provincia = $resultado = "";
-$nombreErr = $apellidosErr = $edadErr = $provinciaErr = "";
+$conexion = establecerConexion();
+crearBaseDeDatos($conexion);
+seleccionarBaseDeDatos($conexion);
+$nombre = $apellidos = $edad = $provincia = $resultado = $contrasenha = $contrasenhaTecleada = "";
+$nombreErr = $apellidosErr = $edadErr = $provinciaErr = $contrasenhaErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validación de datos
@@ -14,6 +13,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $apellidos = $_POST["apellidos"];
     $edad = $_POST["edad"];
     $provincia = $_POST["provincia"];
+
+    if ($_POST["contrasenha"] == $_POST["verificar-contrasenha"]) {
+        $contrasenhaTecleada = $_POST["contrasenha"];
+        $contrasenha = password_hash($contrasenhaTecleada, PASSWORD_DEFAULT);
+    } else{
+        $contrasenhaErr = "Ten que ingresar unha contraseña válida.";
+
+    }
+
 
     if (!validarCampoObligatorio($nombre) || !validarFormatoString($nombre) || !validarLongitudNombre($nombre)) {
         $nombreErr = "Nombre inválido";
@@ -30,10 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!validarCampoObligatorio($provincia)) {
         $provinciaErr = "Provincia inválida";
     }
+   
     // Si todos los datos son válidos, guardar al nuevo usuario
-    if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($provinciaErr)) {
+    if (empty($nombreErr) && empty($apellidosErr) && empty($edadErr) && empty($provinciaErr) && empty($contrasenhaErr)) {
 
-        $resultado = guardarUsuarios($nombre, $apellidos, $edad, $provincia);
+        $resultado = guardarUsuarios($conexion, $nombre, $contrasenha, $apellidos, $edad, $provincia);
     }
 }
 ?>
@@ -64,6 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="apellidos" name="apellidos">
         <span class="error"><?php echo $apellidosErr; ?></span>
 
+        <label for="contrasenha">Contraseña:</label>
+        <input type="password" id="contrasenha" name="contrasenha">
+        <span class="error"><?php echo $contrasenhaErr; ?></span>
+
+        <label for="verificar-contrasenha">Repita a contraseña:</label>
+        <input type="password" id="verificar-contrasenha" name="verificar-contrasenha">
+
         <label for="edad">Edad:</label>
         <input type="number" id="edad" name="edad">
         <span class="error"><?php echo $edadErr; ?></span>
@@ -87,4 +103,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 
 </html>
-<?php cerrarConexion(); ?>
+<?php cerrarConexion($conexion); ?>

@@ -23,10 +23,10 @@
             <td>PROVINCIA</td>
         </tr>
         <?php require_once 'lib/base_datos.php';
-        establecerConexion();
-        seleccionarBaseDeDatos();
-        echo listarUsuarios();
-        cerrarConexion();
+        $conexion=establecerConexion();
+        seleccionarBaseDeDatos($conexion);
+        echo listarUsuarios($conexion);
+        cerrarConexion($conexion);
         ?>
     </table>
 
