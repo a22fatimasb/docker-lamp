@@ -2,7 +2,7 @@
 
 include "Mascota.php";
 
-class Animal implements Mascota{
+abstract class Animal implements Mascota{
 
     protected $nombre;
     protected $edad;
@@ -32,5 +32,5 @@ class Animal implements Mascota{
         return $this->nombre;
     }
 
-     public function emitirSonido(){}
+   abstract public function emitirSonido();
 }
