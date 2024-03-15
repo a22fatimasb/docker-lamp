@@ -6,7 +6,20 @@
  *
  */
 
-print "<!-- Ejercicio incompleto -->\n";
+session_start();
+
+
+// Verificar si hay algún texto guardado en la sesión
+$texto_previo = isset($_SESSION['texto']) ? $_SESSION['texto'] : '';
+
+// Procesar el formulario si se ha enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['texto'])) {
+  
+  $_SESSION['texto'] = $_POST['texto'];
+  $texto_previo = $_SESSION['texto'] ;
+  
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -27,11 +40,11 @@ print "<!-- Ejercicio incompleto -->\n";
 
 <?php
 
-print "  <p class=\"aviso\">Ejercicio incompleto</p>\n";
+echo $texto_previo ;
 
 ?>
 
-  <form action="sesiones-1-01-2.php" method="get">
+  <form action="sesiones-1-01-1.php" method="post">
     <p>
       <label>
         Escriba texto:
@@ -40,11 +53,12 @@ print "  <p class=\"aviso\">Ejercicio incompleto</p>\n";
     </p>
 
     <p>
-      <input type="submit" value="Siguiente">
+      <input type="submit" value="Guardar">
       <input type="reset" value="Borrar">
     </p>
   </form>
 
+  <a href="sesiones-1-01-2.php">Página 2 </a>
   <footer>
     <p>Escriba aquí su nombre</p>
   </footer>

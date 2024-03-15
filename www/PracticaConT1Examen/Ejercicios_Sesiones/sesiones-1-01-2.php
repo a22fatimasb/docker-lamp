@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Sesiones (1) 01 - sesiones-1-01-2.php
  *
@@ -6,11 +7,20 @@
  *
  */
 
-print "<!-- Ejercicio incompleto -->\n";
+session_start();
+$texto_imprimir = "";
+// Verificar si hay texto guardado en la sesión
+if (isset($_SESSION['texto'])) {
+  $texto = $_SESSION['texto'];
+  $texto_imprimir = "<h2>Texto ingresado:</h2><p>$texto</p>";
+} else {
+  $texto_imprimir = "<h2>No se ha ingresado ningún texto.</h2>";
+}
 
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <title>
@@ -25,11 +35,11 @@ print "<!-- Ejercicio incompleto -->\n";
 <body>
   <h1>Formulario Texto 1 (Resultado)</h1>
 
-<?php
+  <?php
 
-print "  <p class=\"aviso\">Ejercicio incompleto</p>\n";
+  echo $texto_imprimir;
 
-?>
+  ?>
 
   <p><a href="sesiones-1-01-1.php">Volver a la primera página.</a></p>
 
@@ -37,4 +47,5 @@ print "  <p class=\"aviso\">Ejercicio incompleto</p>\n";
     <p>Escriba aquí su nombre</p>
   </footer>
 </body>
+
 </html>
