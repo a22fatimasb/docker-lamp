@@ -19,7 +19,15 @@
     <ul>
         <?php
         
-        // Mostrar las notas guardadas en forma de lista
+        $directorio = "notas/";
+        if ($handler = opendir($directorio)) {
+            echo "<ul>";
+        while (false !== ($fichero = readdir($handler))) {
+            echo "<li>$fichero</li>";
+        }
+        echo "</ul>";
+        closedir($handler);
+}
         ?>
     </ul>
 </body>
