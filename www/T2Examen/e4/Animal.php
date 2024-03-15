@@ -24,10 +24,8 @@ abstract class Animal implements Mascota{
         $this->edad = $edad;
     }
     function get_edad(){
-        return $edad;
-    }
-
-    
+        return $this->edad;
+    } 
     public function obtenerNombre(){
         return $this->nombre;
     }

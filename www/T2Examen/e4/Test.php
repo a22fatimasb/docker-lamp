@@ -9,8 +9,10 @@ $gato = new Gato("Xana", 2);
 
 echo $perro->emitirSonido()."<br>";
 echo $perro->obtenerNombre()."<br>";
+echo "La edad del perro es " . $perro->get_edad()."<br>";
 echo $gato->emitirSonido()."<br>";
 echo $gato->obtenerNombre()."<br>";
  $gato->set_nombre("Hansi");
- echo "Cambio do nome do gato<br>";
+ echo "Cambio del nombre del gato<br>";
 echo $gato->obtenerNombre()."<br>";
+echo "La edad del gato es " . $gato->get_edad()."<br>";

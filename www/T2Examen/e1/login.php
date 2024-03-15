@@ -9,18 +9,18 @@ $usuarios = array(
     'usuario2' => 'contraseña2',
     // Puedes agregar más usuarios si lo deseas
 );
+
 // Obtener los datos del formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["username"];
-    $pass = $_POST["password"];
-}
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-// Validar las credenciales
+    // Validar las credenciales
 if (isset($usuarios[$username]) && $usuarios[$username] === $password) {
     // Iniciar sesión
-    
+        $_SESSION["username"] = $username;
         $_SESSION["autenticado"] = true;
-        $_SESSION["name"] = $usuario;
+        $_SESSION["name"] = $username;
 
     header('Location: welcome.php');
     exit();
@@ -29,4 +29,7 @@ if (isset($usuarios[$username]) && $usuarios[$username] === $password) {
     header('Location: index.php');
     exit();
 }
+}
+
+
 ?>
