@@ -16,19 +16,17 @@ function get_hotel_by_id($id) {
 }
 
 function add_hotel() {
-    $id = Flight::request()->data->id;
     $hotel = Flight::request()->data->hotel;
     $direccion = Flight::request()->data->direccion;
     $email = Flight::request()->data->email;
     $telefono = Flight::request()->data->telefono;
     
-    $sql = "INSERT INTO hoteles(id, hotel, direccion, email, telefono) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO hoteles(hotel, direccion, email, telefono) VALUES (?, ?, ?, ?)";
     $sentencia = Flight::db()->prepare($sql);
-    $sentencia->bindParam(1, $id);
-    $sentencia->bindParam(2, $hotel);
-    $sentencia->bindParam(3, $direccion);   
-    $sentencia->bindParam(4, $email);
-    $sentencia->bindParam(5, $telefono);
+    $sentencia->bindParam(1, $hotel);
+    $sentencia->bindParam(2, $direccion);   
+    $sentencia->bindParam(3, $email);
+    $sentencia->bindParam(4, $telefono);
     $sentencia->execute();
    
     Flight::jsonp(["Hotel agregado correctamente."]);
@@ -58,6 +56,6 @@ function update_hotel() {
     $sentencia->bindParam(4, $id);
     $sentencia->execute();
    
-    Flight::jsonp(["Cliente actualizado correctamente."]);
+    Flight::jsonp(["Hotel actualizado correctamente."]);
 }
 ?>
