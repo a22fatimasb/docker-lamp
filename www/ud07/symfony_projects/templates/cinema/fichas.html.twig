@@ -6,10 +6,14 @@
 
 
 {% block body %}
+
+<div class="col-2 text-center">
+    <img src="{{ foto }}" width="100" height="100">
+</div>
 <div class="container">
     <h1>{{ pelicula.titulo }}</h1>
     <p><strong>Dirección:</strong> {{ pelicula.director }}</p>
     <p>{{ pelicula.resumen }}</p>
-    <img src="{{ pelicula.foto }}" alt="{{ pelicula.titulo }}" width="300" height="400">
 </div>
+
 {% endblock %}

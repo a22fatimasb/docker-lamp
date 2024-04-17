@@ -13,25 +13,28 @@ class CinemaController extends AbstractController
 
     public function __construct()
     {
-        // Array de películas dirigidas por mujeres
+        // Array de las películas 
         $this->peliculas = [
             [
                 'titulo' => 'Lost in Translation',
                 'director' => 'Sofia Coppola',
                 'resumen' => 'Un actor en decadencia y una joven recién graduada se encuentran en un hotel de Tokio y entablan una inesperada amistad mientras exploran la ciudad juntos y se enfrentan a sus propios problemas personales.',
-                'foto' => 'images/lost_in_translation.jpg'
+                'foto' => 'images/lost_in_translation.jpg',
+                'id' => '1'
             ],
             [
                 'titulo' => 'The Hurt Locker',
                 'director' => 'Kathryn Bigelow',
                 'resumen' => 'La película sigue a un equipo de artificieros del ejército de los Estados Unidos durante la Guerra de Irak, centrándose en la tensión y el peligro constante que enfrentan mientras desactivan bombas.',
-                'foto' => 'images/the_hurt_locker.jpg'
+                'foto' => 'images/the_hurt_locker.jpg',
+                'id' => '2'
             ],
             [
                 'titulo' => 'The Kids Are All Right',
                 'director' => 'Lisa Cholodenko',
                 'resumen' => 'La historia gira en torno a una pareja de lesbianas que tienen dos hijos adolescentes concebidos mediante inseminación artificial. Cuando sus hijos deciden localizar a su donante de esperma biológico, las dinámicas familiares se ven desafiadas y se revelan secretos ocultos.',
-                'foto' => 'images/the_kids_are_all_right.jpg'
+                'foto' => 'images/the_kids_are_all_right.jpg',
+                'id' => '3'
             ]
         ];
 
@@ -40,7 +43,6 @@ class CinemaController extends AbstractController
     }
 
     #[Route('/')]
-
     public function homepage()
     {
 
@@ -48,6 +50,7 @@ class CinemaController extends AbstractController
             'title' => $this->nombreCine
         ]);
     }
+
     #[Route('/presenta')]
     public function presenta()
     {
@@ -58,14 +61,14 @@ class CinemaController extends AbstractController
         ]);
     }
 
-    #[Route('/fichas/{titulo}')]
+    #[Route('/fichas/{id}')]
     
-    public function fichas($titulo){
+    public function fichas($id){
 
-        // Buscar la película correspondiente al título
+        // Buscar la película correspondiente al id
         $peliculaSeleccionada = null;
         foreach ($this->peliculas as $pelicula) {
-            if ($pelicula['titulo'] === $titulo) {
+            if ($pelicula['id'] === $id) {
                 $peliculaSeleccionada = $pelicula;
                 break;
             }
@@ -76,9 +79,12 @@ class CinemaController extends AbstractController
             throw $this->createNotFoundException('La película no fue encontrada');
         }
 
+        $titulo = $peliculaSeleccionada['titulo'];
+
         return $this->render('cinema/fichas.html.twig', [
             'titulo' => $titulo,
-            'pelicula' => $peliculaSeleccionada
+            'pelicula' => $peliculaSeleccionada,
+            'foto' => $peliculaSeleccionada['foto']
         ]);
     }
 }
