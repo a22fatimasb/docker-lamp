@@ -62,8 +62,25 @@ class CinemaController extends AbstractController
     
     public function fichas($titulo){
 
-        return $this->render('cinema/fichas.html.twig', ['titulo' =>$titulo]);
+        // Buscar la película correspondiente al título
+        $peliculaSeleccionada = null;
+        foreach ($this->peliculas as $pelicula) {
+            if ($pelicula['titulo'] === $titulo) {
+                $peliculaSeleccionada = $pelicula;
+                break;
+            }
+        }
 
+        // Verificar si se encontró la película
+        if (!$peliculaSeleccionada) {
+            throw $this->createNotFoundException('La película no fue encontrada');
+        }
+
+        return $this->render('cinema/fichas.html.twig', [
+            'titulo' => $titulo,
+            'pelicula' => $peliculaSeleccionada
+        ]);
     }
-
 }
+
+    
