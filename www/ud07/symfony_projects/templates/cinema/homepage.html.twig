@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+<div class="jumbotron-img jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">{{ title }}</h1>
+    </div>
+</div>
+{# 
+<div class="container">
+    <a href="{{ path('presenta') }}">
+        <button class="btn btn-primary">Ver Cartelera</button>
+    </a>
+</div>
+#}
+{% endblock %}
+
