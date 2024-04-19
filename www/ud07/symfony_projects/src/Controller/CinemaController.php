@@ -19,21 +19,21 @@ class CinemaController extends AbstractController
                 'titulo' => 'Lost in Translation',
                 'director' => 'Sofia Coppola',
                 'resumen' => 'Un actor en decadencia y una joven recién graduada se encuentran en un hotel de Tokio y entablan una inesperada amistad mientras exploran la ciudad juntos y se enfrentan a sus propios problemas personales.',
-                'foto' => 'images/lost_in_translation.jpg',
+                'foto' => '/images/lost_in_translation.jpg',
                 'id' => '1'
             ],
             [
                 'titulo' => 'The Hurt Locker',
                 'director' => 'Kathryn Bigelow',
                 'resumen' => 'La película sigue a un equipo de artificieros del ejército de los Estados Unidos durante la Guerra de Irak, centrándose en la tensión y el peligro constante que enfrentan mientras desactivan bombas.',
-                'foto' => 'images/the_hurt_locker.jpg',
+                'foto' => '/images/the_hurt_locker.jpg',
                 'id' => '2'
             ],
             [
                 'titulo' => 'The Kids Are All Right',
                 'director' => 'Lisa Cholodenko',
                 'resumen' => 'La historia gira en torno a una pareja de lesbianas que tienen dos hijos adolescentes concebidos mediante inseminación artificial. Cuando sus hijos deciden localizar a su donante de esperma biológico, las dinámicas familiares se ven desafiadas y se revelan secretos ocultos.',
-                'foto' => 'images/the_kids_are_all_right.jpg',
+                'foto' => '/images/the_kids_are_all_right.jpg',
                 'id' => '3'
             ]
         ];
@@ -61,7 +61,7 @@ class CinemaController extends AbstractController
         ]);
     }
 
-    #[Route('/fichas/{id}')]
+    #[Route('/fichas/{id}', 'ficha_pelicula')]
     
     public function fichas($id){
 
