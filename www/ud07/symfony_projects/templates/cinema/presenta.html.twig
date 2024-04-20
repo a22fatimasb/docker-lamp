@@ -1,42 +1,38 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title }} {# Título de la página #}
+{% endblock %}
+
+ {% block stylesheets %}
+     {# Vincular hoja de estilos #}
+    <link rel="stylesheet" href="/styles/app.css">
 {% endblock %}
 
 {% block body %}
-<div class="jumbotron-img jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Películas en Cartelera</h1>
-    </div>
-</div>
-<div class="container">
 
-    <div class="col-12 col-md-8 ps-5">
-        <h2 class="mb-4">Películas</h2>
+    <h1>Películas en Cartelera</h1>
+
+    <div class="peliculas-container">
+        <h2>Películas</h2>
         
-        {% for pelicula in peliculas %}
-        <div class="song-list">
-            <div class="d-flex mb-3">
-                <div class="col-2 text-center">
-                    <img src="{{ pelicula.foto }}" width="100" height="100">
+        {% for pelicula in peliculas %} {#  Bucle para imprimir todas las películas que se encuentren en el array #}
+        <div class="pelicula">
+            <div class="imagen">
+                <img src="{{ pelicula.foto }}" width="100" height="100"> {# Cartel de la película #}
+            </div>
+            <div class="pelicula-detalles">
+                <h3>{{ pelicula.titulo }}</h3> {# Título de la película #}
+                <p>{{ pelicula.resumen }}</p> {# Resumen de la película #}
+                <p><strong>Dirección:</strong> {{ pelicula.director }}</p> {# Directora de la película #}
+                <div class="ver-ficha">
+                    <a href="{{ path('ficha_pelicula', { id: pelicula.id }) }}" class="button">Ver Ficha</a> {# Enlace para ver la ficha de la película #}
                 </div>
-                <div class="song-details">
-                     <h3>{{ pelicula.titulo }}</h3>
-                    <p>{{ pelicula.resumen }}</p>
-                    <p><strong>Dirección:</strong>{{ pelicula.director }}</p>
-                    <div class="container">
-                    <a href="{{ path('ficha_pelicula', { id: pelicula.id}) }}">Ver Ficha</a>
-</div>
-
             </div>
         </div>
-        
-    </a>
-</div>
-
         {% endfor %}
     </div>
 </div>
 
 {% endblock %}
+

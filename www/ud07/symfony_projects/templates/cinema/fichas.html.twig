@@ -1,19 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ titulo }}
+    {{ titulo }} {# Título de la página #}
 {% endblock %}
 
+ {% block stylesheets %}
+           {# Vincular hoja de estilos #}
+    <link rel="stylesheet" href="/styles/app.css">
+{% endblock %}
 
 {% block body %}
 
-<div class="col-2 text-center">
-    <img src="{{ pelicula.foto }}" width="100" height="100">
+<div class="imagen">
+    <img src="{{ pelicula.foto }}" width="100" height="100"> {# Cartel de la película #}
 </div>
 <div class="container">
-    <h1>{{ pelicula.titulo }}</h1>
-    <p><strong>Dirección:</strong> {{ pelicula.director }}</p>
-    <p>{{ pelicula.resumen }}</p>
+    <h1>{{ pelicula.titulo }}</h1> {# Título de la película #}
+    <p><strong>Dirección:</strong> {{ pelicula.director }}</p> {# Directora de la película #}
+    <p>{{ pelicula.resumen }}</p> {# Resumen de la película #}
 </div>
 
 {% endblock %}

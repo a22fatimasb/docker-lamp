@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ title }}
+    {{ title | upper }} {# Título de la página #}
+{% endblock %}
+
+{% block stylesheets %}
+     {# Vincular hoja de estilos #}
+    <link rel="stylesheet" href="/styles/app.css">
 {% endblock %}
 
 {% block body %}
-<div class="jumbotron-img jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">{{ title }}</h1>
-    </div>
-</div>
 
-<div class="container">
-    <a href="{{('/presenta') }}">
-        <button class="btn btn-primary">Ver Cartelera</button>
-    </a>
-</div>
+    
+    <h1>{{ title }}</h1> {# Encabezado principal #}
+   
+
+   <a href="{{ ('presenta') }}" class="button">Ver Cartelera</a> {# Enlace para ver la cartelera #}
 
 {% endblock %}
 
