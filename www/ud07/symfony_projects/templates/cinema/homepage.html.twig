@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ title | upper }} {# Título de la página #}
+    {{ title | upper }} {# Título de la página en mayúsculas #}
 {% endblock %}
 
 {% block stylesheets %}
-     {# Vincular hoja de estilos #}
+    {# Vincular hoja de estilos #}
     <link rel="stylesheet" href="/styles/app.css">
 {% endblock %}
 
@@ -14,8 +14,8 @@
     
     <h1>{{ title }}</h1> {# Encabezado principal #}
    
-
-   <a href="{{ ('presenta') }}" class="button">Ver Cartelera</a> {# Enlace para ver la cartelera #}
+   {# Enlace para ver la cartelera #}
+   <a href="{{ ('presenta') }}" class="button">Ver Cartelera</a> 
 
 {% endblock %}
 
