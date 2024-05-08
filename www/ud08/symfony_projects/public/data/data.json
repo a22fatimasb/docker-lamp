@@ -4,69 +4,31 @@
         "titulo": "Lazos de sangre",
         "director": "Debra Granik",
         "anio": 2010,
-        "resumen": "Tras la desaparición de su padre, una joven de diecisiete años se encuentra sola con su madre, que está luchando contra la enfermedad. Juntas deben enfrentarse a la dura realidad de vivir en los bosques de Missouri y afrontar los peligros que acechan en su entorno."
+        "resumen": "Tras la desaparición de su padre, una joven de diecisiete años se encuentra sola con su madre, que está luchando contra la enfermedad. Juntas deben enfrentarse a la dura realidad de vivir en los bosques de Missouri y afrontar los peligros que acechan en su entorno.",
+        "foto": "/images/lazos_de_sangre.jpeg"
     },
     {
         "id": 2,
         "titulo": "Ni idea",
         "director": "Amy Heckerling",
         "anio": 1995,
-        "resumen": "Una adolescente de quince años que ha vivido toda su vida en California encuentra su mundo patas arriba cuando su padre, un experto en computadoras, decide mudarse con la familia a la soleada Beverly Hills. La película sigue su adaptación a la vida en la nueva escuela secundaria y las relaciones que desarrolla con sus compañeros de clase."
+        "resumen": "Una adolescente de quince años que ha vivido toda su vida en California encuentra su mundo patas arriba cuando su padre, un experto en computadoras, decide mudarse con la familia a la soleada Beverly Hills. La película sigue su adaptación a la vida en la nueva escuela secundaria y las relaciones que desarrolla con sus compañeros de clase.",
+        "foto": "/images/clueless.jpg"
     },
     {
         "id": 3,
         "titulo": "Orlando",
         "director": "Sally Potter",
         "anio": 1992,
-        "resumen": "Basada en la novela de Virginia Woolf, la película sigue la vida de Orlando, un joven noble inglés que vive durante cuatrocientos años y cambia de género a mitad de su vida. La película es una exploración de la identidad, el tiempo y la naturaleza del amor."
+        "resumen": "Basada en la novela de Virginia Woolf, la película sigue la vida de Orlando, un joven noble inglés que vive durante cuatrocientos años y cambia de género a mitad de su vida. La película es una exploración de la identidad, el tiempo y la naturaleza del amor.",
+        "foto": "/images/orlando.jpeg"
     },
     {
         "id": 4,
         "titulo": "American Psycho",
         "director": "Mary Harron",
         "anio": 2000,
-        "resumen": "La película sigue a Patrick Bateman, un exitoso pero psicótico ejecutivo de Wall Street que vive una doble vida como asesino en serie. Ambientada en la década de 1980, la película es una sátira mordaz de la cultura materialista y la superficialidad de la sociedad estadounidense."
-    },
-    {
-        "id": 5,
-        "titulo": "Siete Bellezas",
-        "director": "Lina Wertmüller",
-        "anio": 1975,
-        "resumen": "La película sigue las desventuras de un hombre italiano que lucha por sobrevivir en la Italia fascista de la Segunda Guerra Mundial. A medida que enfrenta una serie de desafíos y tragedias, su moralidad se ve puesta a prueba y se enfrenta a decisiones difíciles."
-    },
-    {
-        "id": 6,
-        "titulo": "Wanda",
-        "director": "Barbara Loden",
-        "anio": 1970,
-        "resumen": "La película sigue a Wanda, una mujer de clase trabajadora que vive una vida monótona y sin rumbo en la América rural. Después de perder la custodia de sus hijos y separarse de su esposo abusivo, Wanda se embarca en un viaje errante en busca de significado y libertad."
-    },
-    {
-        "id": 7,
-        "titulo": "La Ciénaga",
-        "director": "Lucrecia Martel",
-        "anio": 2001,
-        "resumen": "La película sigue a dos familias argentinas de clase media que veranean en una decadente casa de campo. A medida que el calor y el aburrimiento los consumen, los miembros de ambas familias se ven envueltos en una serie de encuentros sexuales, conflictos familiares y tragedias."
-    },
-    {
-        "id": 8,
-        "titulo": "Point break",
-        "director": "Kathryn Bigelow",
-        "anio": 1991,
-        "resumen": "La película sigue a un joven agente del FBI que se infiltra en un grupo de surfistas radicales sospechosos de una serie de robos de bancos. A medida que se sumerge más en la cultura de los surfistas, comienza a cuestionar su lealtad y su identidad."
-    },
-    {
-        "id": 9,
-        "titulo": "Sin techo ni ley",
-        "director": "Agnès Varda",
-        "anio": 1985,
-        "resumen": "La película sigue a una joven vagabunda que viaja por el campo francés, viviendo de forma nómada y rechazando las normas convencionales de la sociedad. A través de encuentros fortuitos y experiencias personales, la protagonista reflexiona sobre la libertad, la soledad y el significado de la vida."
-    },
-    {
-        "id": 10,
-        "titulo": "La noche más oscura",
-        "director": "Kathryn Bigelow",
-        "anio": 2012,
-        "resumen": "La película narra la cacería de Osama bin Laden por parte de la CIA tras los ataques del 11 de septiembre de 2001. Centrándose en la dedicación y la determinación de un pequeño equipo de agentes de la CIA, la película ofrece una visión intensa y controvertida de la búsqueda del terrorista más buscado del mundo."
+        "resumen": "La película sigue a Patrick Bateman, un exitoso pero psicótico ejecutivo de Wall Street que vive una doble vida como asesino en serie. Ambientada en la década de 1980, la película es una sátira mordaz de la cultura materialista y la superficialidad de la sociedad estadounidense.",
+        "foto": "/images/American_Psycho.jpeg"
     }
 ]

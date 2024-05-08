@@ -15,31 +15,6 @@ class CinemaController extends AbstractController
 
     public function __construct()
     {
-        // Array de las películas 
-        $this->peliculas = [
-            [
-                'titulo' => 'Lost in Translation',
-                'director' => 'Sofia Coppola',
-                'resumen' => 'Un actor en decadencia y una joven recién graduada se encuentran en un hotel de Tokio y entablan una inesperada amistad mientras exploran la ciudad juntos y se enfrentan a sus propios problemas personales.',
-                'foto' => '/images/lost_in_translation.jpg',
-                'id' => '1'
-            ],
-            [
-                'titulo' => 'The Hurt Locker',
-                'director' => 'Kathryn Bigelow',
-                'resumen' => 'La película sigue a un equipo de artificieros del ejército de los Estados Unidos durante la Guerra de Irak, centrándose en la tensión y el peligro constante que enfrentan mientras desactivan bombas.',
-                'foto' => '/images/the_hurt_locker.jpg',
-                'id' => '2'
-            ],
-            [
-                'titulo' => 'The Kids Are All Right',
-                'director' => 'Lisa Cholodenko',
-                'resumen' => 'La historia gira en torno a una pareja de lesbianas que tienen dos hijos adolescentes concebidos mediante inseminación artificial. Cuando sus hijos deciden localizar a su donante de esperma biológico, las dinámicas familiares se ven desafiadas y se revelan secretos ocultos.',
-                'foto' => '/images/the_kids_are_all_right.jpg',
-                'id' => '3'
-            ]
-        ];
-
         // Nombre del cine
         $this->nombreCine = 'Cinema Picheleiras';
     }
@@ -54,10 +29,14 @@ class CinemaController extends AbstractController
     }
 
     #[Route('/presenta')]
-    public function presenta(HttpClientInterface $httpClient): Response
+    public function presenta(HttpClientInterface $httpClient, CacheInterface $cache): Response
     {
-        $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/a22fatimasb/docker-lamp/main/www/ud08/symfony_projects/public/data/data.json');
-        $peliculas = $response->toArray();
+        $peliculas = $cache->get('peliculas_data', function ($cacheItem) use ($httpClient) {
+            $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/a22fatimasb/docker-lamp/main/www/ud08/symfony_projects/public/data/data.json');
+            $data = $response->toArray();
+            $cacheItem->expiresAfter(10);
+            return $data;
+        });
         return $this->render('cinema/presenta.html.twig', [
             'title' => $this->nombreCine,
             'peliculas' => $peliculas
@@ -66,18 +45,29 @@ class CinemaController extends AbstractController
 
     #[Route('/fichas/{id}', 'ficha_pelicula')]
 
-    public function fichas($id)
-    {
+    public function fichas(
+        HttpClientInterface  $httpClient,
+        CacheInterface $cache,
+        $id
+    ): Response {
 
+        $peliculas = $cache->get('peliculas_data', function ($cacheItem) use ($httpClient) {
+            $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/a22fatimasb/docker-lamp/main/www/ud08/symfony_projects/public/data/data.json');
+            $data = $response->toArray();
+            $cacheItem->expiresAfter(10);
+            return $data;
+        });
+
+        $id = (int) $id;
         // Buscar la película correspondiente al id
         $peliculaSeleccionada = null;
-        foreach ($this->peliculas as $pelicula) {
+        foreach ($peliculas as $pelicula) {
             if ($pelicula['id'] === $id) {
                 $peliculaSeleccionada = $pelicula;
                 break;
             }
         }
-
+       
         // Verificar si se encontró la película
         if (!$peliculaSeleccionada) {
             $error = 'La película no fue encontrada';
