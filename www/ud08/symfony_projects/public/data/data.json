@@ -21,7 +21,7 @@
         "director": "Sally Potter",
         "anio": 1992,
         "resumen": "Basada en la novela de Virginia Woolf, la película sigue la vida de Orlando, un joven noble inglés que vive durante cuatrocientos años y cambia de género a mitad de su vida. La película es una exploración de la identidad, el tiempo y la naturaleza del amor.",
-        "foto": "/images/orlando.jpeg"
+        "foto": "/images/orlando.jpg"
     },
     {
         "id": 4,
@@ -29,6 +29,6 @@
         "director": "Mary Harron",
         "anio": 2000,
         "resumen": "La película sigue a Patrick Bateman, un exitoso pero psicótico ejecutivo de Wall Street que vive una doble vida como asesino en serie. Ambientada en la década de 1980, la película es una sátira mordaz de la cultura materialista y la superficialidad de la sociedad estadounidense.",
-        "foto": "/images/American_Psycho.jpeg"
+        "foto": "/images/American_Psycho.jpg"
     }
 ]

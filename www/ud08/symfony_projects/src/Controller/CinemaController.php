@@ -74,12 +74,13 @@ class CinemaController extends AbstractController
         } else {
             $error = null;
             $titulo = $peliculaSeleccionada['titulo'];
+            $foto = $peliculaSeleccionada['foto'];
         }
 
         return $this->render('cinema/fichas.html.twig', [
             'titulo' => $titulo ?? null,
             'pelicula' => $peliculaSeleccionada,
-            'foto' => $peliculaSeleccionada ? $peliculaSeleccionada['foto'] : null,
+            'foto' => $foto ?? null,
             'error' => $error,
         ]);
     }
