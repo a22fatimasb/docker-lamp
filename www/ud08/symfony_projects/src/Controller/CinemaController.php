@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 
 class CinemaController extends AbstractController
 {
@@ -63,8 +64,9 @@ class CinemaController extends AbstractController
     }
 
     #[Route('/fichas/{id}', 'ficha_pelicula')]
-    
-    public function fichas($id){
+
+    public function fichas($id)
+    {
 
         // Buscar la película correspondiente al id
         $peliculaSeleccionada = null;
@@ -77,17 +79,17 @@ class CinemaController extends AbstractController
 
         // Verificar si se encontró la película
         if (!$peliculaSeleccionada) {
-            throw $this->createNotFoundException('La película no fue encontrada');
+            $error = 'La película no fue encontrada';
+        } else {
+            $error = null;
+            $titulo = $peliculaSeleccionada['titulo'];
         }
 
-        $titulo = $peliculaSeleccionada['titulo'];
-
         return $this->render('cinema/fichas.html.twig', [
-            'titulo' => $titulo,
+            'titulo' => $titulo ?? null,
             'pelicula' => $peliculaSeleccionada,
-            'foto' => $peliculaSeleccionada['foto']
+            'foto' => $peliculaSeleccionada ? $peliculaSeleccionada['foto'] : null,
+            'error' => $error,
         ]);
     }
 }
-
-    
