@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title | upper }} {# Título de la página en mayúsculas #}
+{% endblock %}
+
+{% block stylesheets %}
+    {# Vincular hoja de estilos #}
+    <link rel="stylesheet" href="/styles/app.css">
+{% endblock %}
+
+{% block body %}
+    {{ component('Alert') }}
+
+    <h1>{{ title }}</h1> {# Encabezado principal #}
+
+
+    <img class="imagenPrincipal"
+    src="{{ asset('/images/small.jpg') }}"
+    {{ stimulus_controller('symfony/ux-lazy-image/lazy-image', {
+        src: asset('/images/large.jpg')
+    }) }} >
+
+    {# Enlace para ver la cartelera #}
+    <a href="{{ ('presenta') }}" class="button">Ver Cartelera</a> 
+{% endblock %}
+
+

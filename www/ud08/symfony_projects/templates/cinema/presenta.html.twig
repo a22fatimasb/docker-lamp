@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }} {# Título de la página #}
+{% endblock %}
+
+ {% block stylesheets %}
+     {# Vincular hoja de estilos #}
+    <link rel="stylesheet" href="/styles/app.css">
+{% endblock %}
+
+{% block body %}
+
+    <h1>Películas en Cartelera</h1>
+
+    <div class="peliculas-container">
+        <h2>Películas</h2>
+        {#  Bucle para imprimir todas las películas que se encuentren en el array #}
+        {% for pelicula in peliculas %} 
+        <div class="pelicula">
+            <div class="imagen">
+                <img src="{{ pelicula.foto }}" width="100" height="100"> {# Cartel de la película #}
+            </div>
+            <div class="pelicula-detalles">
+                <h3>{{ pelicula.titulo }}</h3> {# Título de la película #}
+                <p>{{ pelicula.resumen }}</p> {# Resumen de la película #}
+                <p><strong>Dirección:</strong> {{ pelicula.director }}</p> {# Directora de la película #}
+                <div class="ver-ficha">
+                    {# Enlace para ver la ficha de la película #}
+                    <a href="{{ path('ficha_pelicula', { id: pelicula.id }) }}" class="button">Ver Ficha</a> 
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+

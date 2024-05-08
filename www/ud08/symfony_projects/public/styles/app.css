@@ -1,0 +1,55 @@
+
+h1 {
+    font-size: 32px;
+    color: green;
+    margin-bottom: 20px;
+}
+
+.imagenPrincipal{
+    margin: 5px;
+    padding: 5px;
+    display: block;
+}
+.imagen img {
+    border-radius: 8px;
+    margin-right: 10px; 
+}
+
+
+.peliculas-container {
+    margin-top: 20px;
+}
+
+
+.pelicula-detalles h3 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+
+.pelicula-detalles p {
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.ver-ficha{
+    margin: 15px;
+}
+
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+a.button:hover {
+    background-color: #0056b3; 
+}
+
+
+
