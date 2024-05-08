@@ -56,11 +56,11 @@ class CinemaController extends AbstractController
     #[Route('/presenta')]
     public function presenta(HttpClientInterface $httpClient): Response
     {
-        $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/SymfonyCasts/vinyl-mixes/main/mixes.json');
-
+        $response = $httpClient->request('GET', 'https://raw.githubusercontent.com/a22fatimasb/docker-lamp/main/www/ud08/symfony_projects/public/data/data.json');
+        $peliculas = $response->toArray();
         return $this->render('cinema/presenta.html.twig', [
             'title' => $this->nombreCine,
-            'peliculas' => $this->peliculas
+            'peliculas' => $peliculas
         ]);
     }
 

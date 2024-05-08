@@ -18,9 +18,6 @@
         {#  Bucle para imprimir todas las películas que se encuentren en el array #}
         {% for pelicula in peliculas %} 
         <div class="pelicula">
-            <div class="imagen">
-                <img src="{{ pelicula.foto }}" width="100" height="100"> {# Cartel de la película #}
-            </div>
             <div class="pelicula-detalles">
                 <h3>{{ pelicula.titulo }}</h3> {# Título de la película #}
                 <p>{{ pelicula.resumen }}</p> {# Resumen de la película #}

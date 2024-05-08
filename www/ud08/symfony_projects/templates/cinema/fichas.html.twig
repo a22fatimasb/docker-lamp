@@ -15,9 +15,6 @@
     {{ component('Alert', { 'message': error, 'type': 'danger' }) }}
 {% else %}
     {{ component('Alert', { 'type': 'success', 'message': '¡La operación se realizó con éxito!' }) }}
-    <div class="imagen">
-    <img src="{{ pelicula.foto }}" width="100" height="100"> {# Cartel de la película #}
-</div>
 <div class="container">
     <h1>{{ pelicula.titulo }}</h1> {# Título de la película #}
     <p><strong>Dirección:</strong> {{ pelicula.director }}</p> {# Directora de la película #}
