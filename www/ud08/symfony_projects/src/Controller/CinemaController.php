@@ -71,19 +71,14 @@ class CinemaController extends AbstractController
         }
        
         // Verificar si se encontró la película
+        $error = null;
         if (!$peliculaSeleccionada) {
             $error = 'La película no fue encontrada';
-        } else {
-            $error = null;
-            $titulo = $peliculaSeleccionada['titulo'];
-            $foto = $peliculaSeleccionada['foto'];
-        }
-
+        } 
         return $this->render('cinema/fichas.html.twig', [
-            'titulo' => $titulo ?? null,
+          
             'pelicula' => $peliculaSeleccionada,
-            'foto' => $foto ?? null,
-            'error' => $error,
+            'error' => $error
         ]);
     }
 }
