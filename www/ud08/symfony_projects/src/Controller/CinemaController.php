@@ -10,13 +10,14 @@ use Symfony\Contracts\Cache\CacheInterface;
 
 class CinemaController extends AbstractController
 {
-    private $peliculas;
     private $nombreCine;
+    private $imagenPrincipal;
 
     public function __construct()
     {
         // Nombre del cine
         $this->nombreCine = 'Cinema Picheleiras';
+        $this->imagenPrincipal = '/images/small.jpg';
     }
 
     #[Route('/')]
@@ -24,7 +25,8 @@ class CinemaController extends AbstractController
     {
 
         return $this->render('cinema/homepage.html.twig', [
-            'title' => $this->nombreCine
+            'title' => $this->nombreCine,
+            'image' => $this->imagenPrincipal
         ]);
     }
 
