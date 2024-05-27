@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h1>Pets</h1>
+
+   
+        <h2>Pets</h2>
+        {#  Bucle para imprimir todos los animales que se encuentren en el array #}
+        {% for animal in pets %} 
+        
+            <div class="imagen">
+                <img src="{{ animal.photo }}" width="250" height="250"> {# Imagen del animal #}
+            </div>
+            <div class="animal-detalles">
+                <h3>{{ animal.name }}</h3> {# Nombre del animal #}
+                <p><strong>Especie del animal:</strong> {{ animal.species }}</p> {# Resumen de la película #}
+                <p><strong>Comida favorita:</strong> {{ animal.favFoods }}</p> 
+                <p><strong>Año nacimiento:</strong> {{ animal.birthYear }}</p> 
+                                
+            </div>
+       
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
