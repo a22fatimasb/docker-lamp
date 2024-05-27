@@ -3,26 +3,28 @@
 
 {% block body %}
 
-    <h1>Pets</h1>
+    <h1>Animales</h1>
 
-   
-        <h2>Pets</h2>
+
         {#  Bucle para imprimir todos los animales que se encuentren en el array #}
-        {% for animal in pets %} 
-        
-            <div class="imagen">
+        {% for animal in pets.pets %} 
+                 
+                <h3>Nombre del animal -> {{ animal.name }}</h3> {# Nombre del animal #}
+                <p><strong>Especie del animal:</strong> {{ animal.species }}</p> 
+
+                {% if animal.favFoods is defined %}
+                 {% for comida in animal.favFoods %} 
+                <p><strong> Comida favorita:</strong> {{ comida }}  </p>   
+                        {% endfor %}   
+                {% endif %}     
+                <p><strong>Año nacimiento:</strong> {{ animal.birthYear }}</p>              
+            
+               <div class="imagen">
                 <img src="{{ animal.photo }}" width="250" height="250"> {# Imagen del animal #}
-            </div>
-            <div class="animal-detalles">
-                <h3>{{ animal.name }}</h3> {# Nombre del animal #}
-                <p><strong>Especie del animal:</strong> {{ animal.species }}</p> {# Resumen de la película #}
-                <p><strong>Comida favorita:</strong> {{ animal.favFoods }}</p> 
-                <p><strong>Año nacimiento:</strong> {{ animal.birthYear }}</p> 
-                                
-            </div>
-       
+                </div>
+
         {% endfor %}
-    </div>
+
 
 
 {% endblock %}

@@ -14,7 +14,7 @@ class AnimalesController extends AbstractController
 
     public function __construct()
     {
-        // Array de las películas 
+        // Array de los animales
         $this->pets = [
             [
             "name" =>  "Purrsloud",
