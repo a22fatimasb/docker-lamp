@@ -46,7 +46,7 @@ function get_customers_by_num($customerNumber) {
 function add_customers() {
    
     $customerNumber = Flight::request()->data->customerNumber;
-    $customerName = Flight::request()->data->customerName ;
+    $customerName = Flight::request()->data->customerName;
     $contactLastName = Flight::request()->data->contactLastName;
     $contactFirstName = Flight::request()->data->contactFirstName;
     $phone = Flight::request()->data->phone;
@@ -58,8 +58,8 @@ function add_customers() {
     $country = Flight::request()->data->country ;
     $salesRepEmployeeNumber = Flight::request()->data->salesRepEmployeeNumber;
     $creditLimit = Flight::request()->data->creditLimit;
+
     
-    $
     $sql = "INSERT INTO customers(customerNumber, customerName , contactLastName, contactFirstName, phone , addressLine1, addressLine2, city, state, postalCode, country, salesRepEmployeeNumber, creditLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $sentencia = Flight::db()->prepare($sql);
     
@@ -89,7 +89,7 @@ function delete_customers() {
     $sentencia->bindParam(1, $customerNumber);
     $sentencia->execute();
    
-    Flight::jsonp(["Customer eliminado con id: $id"]);
+    Flight::jsonp(["Customer eliminado con numero: $customerNumber"]);
 }
 
 function update_customers() {
